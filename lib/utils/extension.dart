@@ -6,3 +6,7 @@ double get fullHeight =>
 
 double get fullWidth =>
     MediaQuery.of(navigatorKey.currentState!.context).size.width;
+
+extension StringSymbol on String {
+  String get indegree => '$this\u00B0';
+}

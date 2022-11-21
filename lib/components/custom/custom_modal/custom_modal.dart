@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wi_weather_app/components/custom/custom_modal/modal_controller.dart';
+import 'package:wi_weather_app/res/constants/app_colors.dart';
 
 class CustomModal extends StatefulWidget {
   const CustomModal({super.key});
@@ -42,10 +43,25 @@ class _CustomModalState extends State<CustomModal>
             onVerticalDragEnd: modalControler.handleDragEnd,
             child: Container(
               color: Colors.white,
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              child: Column(
+                children: [
+                  modalPicker,
+                ],
+              ),
             ),
           ),
         );
       },
     );
   }
+
+  Container modalPicker = Container(
+    height: 15,
+    width: 50,
+    decoration: BoxDecoration(
+      color: AppColors.primary,
+      borderRadius: BorderRadius.circular(10),
+    ),
+  );
 }

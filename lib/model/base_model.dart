@@ -12,5 +12,5 @@ class BaseModel extends ChangeNotifier {
         min,
         max,
         animationController.value,
-  );
+      );
 }
