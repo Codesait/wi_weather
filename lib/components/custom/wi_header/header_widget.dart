@@ -96,7 +96,7 @@ class WeatherReading extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '21'.indegree,
+            '21'.inDegree,
             style: const TextStyle(
                 fontSize: 100,
                 fontWeight: FontWeight.bold,
