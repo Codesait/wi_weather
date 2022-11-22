@@ -17,7 +17,7 @@ class _WiHeaderState extends State<WiHeader> {
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.primary,
-      height: headerController.headerHeight,
+      height: headerController.headerHeight - 40,
       child: Column(
         children: <Widget>[
           HeaderTitle(controller: headerController),
@@ -103,6 +103,7 @@ class WeatherReading extends StatelessWidget {
                 color: AppColors.white),
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: const [
               Text(
                 'Sunny',

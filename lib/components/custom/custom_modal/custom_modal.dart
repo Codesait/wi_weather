@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wi_weather_app/components/custom/custom_modal/modal_controller.dart';
+import 'package:wi_weather_app/components/reusables/current_weather_detail_item.dart';
 import 'package:wi_weather_app/components/reusables/weather_large_text.dart';
 import 'package:wi_weather_app/res/constants/app_colors.dart';
 import 'package:wi_weather_app/utils/extension.dart';
@@ -80,36 +81,34 @@ class CurrentWeatherDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: modalController.modalMinHeight / 1.2,
+      //height: modalController.modalMinHeight / 1.2,
       width: fullWidth,
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.only(top: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-
           // header text
           const WeatherLargeText(),
 
           // spacing
           const SizedBox.square(
-            dimension: 10,
+            dimension: 20,
           ),
-          Flexible(
-            child: GridView.builder(
-              itemCount: 6,
-              physics: const BouncingScrollPhysics(),
-              shrinkWrap: true,
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              itemBuilder: (context, index) {
-                return const SizedBox(height: 50, child: Placeholder());
-              },
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 5,
-                crossAxisSpacing: 20,
-                childAspectRatio: 3,
-              ),
+          GridView.builder(
+            itemCount: 4,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+            itemBuilder: (context, index) {
+              return const CurrentWeatherItem();
+            },
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 5,
+              crossAxisSpacing: 20,
+              childAspectRatio: 3,
             ),
           ),
         ],
