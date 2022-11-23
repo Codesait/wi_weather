@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:wi_weather_app/res/constants/app_colors.dart';
 
 class WeatherLargeText extends StatelessWidget {
-  const WeatherLargeText({super.key});
+  const WeatherLargeText({super.key, required this.text});
+  final String text;
 
   @override
   Widget build(BuildContext context) {
-    return const Text('Weather Now',
-        style: TextStyle(
+    return  Text(text,
+        style: const TextStyle(
           fontWeight: FontWeight.bold,
           color: AppColors.black,
           fontSize: 18,
