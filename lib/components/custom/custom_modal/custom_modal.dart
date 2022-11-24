@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wi_weather_app/components/custom/custom_modal/modal_controller.dart';
 import 'package:wi_weather_app/components/reusables/current_weather_detail_item.dart';
 import 'package:wi_weather_app/components/reusables/gap.dart';
+import 'package:wi_weather_app/components/reusables/prediction_list_item.dart';
 import 'package:wi_weather_app/components/reusables/weather_large_text.dart';
 import 'package:wi_weather_app/res/constants/app_colors.dart';
 import 'package:wi_weather_app/utils/extension.dart';
@@ -65,7 +66,7 @@ class _CustomModalState extends State<CustomModal>
                       children: [
                         CurrentWeatherDetails(modalController: modalController),
                         const Gap(dimension: 20),
-                        WeatherPredictions(controller: modalController)
+                        WeatherPredictions(controller: modalController),
                       ],
                     ),
                   ),
@@ -157,15 +158,50 @@ class WeatherPredictions extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            WeatherLargeText(
-              text: 'Weather now',
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const WeatherLargeText(
+                  text: 'Prediction',
+                ),
+                Text(
+                  'Weekly',
+                  style: TextStyle(
+                    color: AppColors.grey.withOpacity(0.7),
+                    fontSize: 15,
+                  ),
+                ),
+              ],
             ),
-            Gap(dimension: 10),
-            Placeholder()
+            const Gap(dimension: 10),
+            Container(
+              constraints: BoxConstraints(
+                  minHeight: controller.modalFullHeight / 3,
+                  maxHeight: controller.modalFullHeight / 2.4,
+                  minWidth: fullWidth),
+              child: const Predictions(),
+            ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class Predictions extends StatelessWidget {
+  const Predictions({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: 7,
+      padding: const EdgeInsets.only(bottom: 60),
+      physics: const BouncingScrollPhysics(),
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        return const PredictionListItem();
+      },
     );
   }
 }
