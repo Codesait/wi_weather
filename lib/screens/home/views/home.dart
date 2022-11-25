@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:wi_weather_app/components/custom/custom_modal/custom_modal.dart';
-import 'package:wi_weather_app/components/custom/wi_header/header_widget.dart';
-import 'package:wi_weather_app/utils/extension.dart';
+import 'package:wi_weather_app/src/components.dart';
+import 'package:wi_weather_app/src/utils.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

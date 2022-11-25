@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:wi_weather_app/components/custom/custom_modal/modal_controller.dart';
-import 'package:wi_weather_app/components/reusables/current_weather_detail_item.dart';
-import 'package:wi_weather_app/components/reusables/gap.dart';
-import 'package:wi_weather_app/components/reusables/prediction_list_item.dart';
-import 'package:wi_weather_app/components/reusables/weather_large_text.dart';
-import 'package:wi_weather_app/res/constants/app_colors.dart';
-import 'package:wi_weather_app/utils/extension.dart';
+import 'package:wi_weather_app/src/components.dart';
+import 'package:wi_weather_app/src/res.dart';
+import 'package:wi_weather_app/src/utils.dart';
 
 class CustomModal extends StatefulWidget {
   const CustomModal({super.key});
@@ -177,9 +173,10 @@ class WeatherPredictions extends StatelessWidget {
             const Gap(dimension: 10),
             Container(
               constraints: BoxConstraints(
-                  minHeight: controller.modalFullHeight / 3,
-                  maxHeight: controller.modalFullHeight / 2.4,
-                  minWidth: fullWidth),
+                minHeight: controller.modalFullHeight / 3,
+                maxHeight: controller.modalFullHeight / 2.4,
+                minWidth: fullWidth,
+              ),
               child: const Predictions(),
             ),
           ],

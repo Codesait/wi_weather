@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wi_weather_app/res/constants/app_colors.dart';
-import 'package:wi_weather_app/utils/extension.dart';
+import 'package:wi_weather_app/src/res.dart';
+import 'package:wi_weather_app/src/utils.dart';
 
 class PredictionListItem extends StatelessWidget {
   const PredictionListItem({super.key});

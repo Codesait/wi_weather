@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:wi_weather_app/components/reusables/gap.dart';
-import 'package:wi_weather_app/res/assets/asset_paths.dart';
-import 'package:wi_weather_app/res/constants/app_colors.dart';
-import 'package:wi_weather_app/utils/extension.dart';
+import 'package:wi_weather_app/src/components.dart';
+import 'package:wi_weather_app/src/res.dart';
+import 'package:wi_weather_app/src/utils.dart';
+
 
 class CurrentWeatherItem extends StatelessWidget {
   const CurrentWeatherItem({super.key});

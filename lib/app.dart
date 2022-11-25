@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wi_weather_app/screens/splash/splash_screen.dart';
+
+import 'src/screens.dart';
 
 
 final navigatorKey = GlobalKey<NavigatorState>();

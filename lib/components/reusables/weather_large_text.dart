@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wi_weather_app/res/constants/app_colors.dart';
+import 'package:wi_weather_app/src/res.dart';
 
 class WeatherLargeText extends StatelessWidget {
   const WeatherLargeText({super.key, required this.text});

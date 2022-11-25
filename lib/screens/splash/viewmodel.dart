@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wi_weather_app/screens/home/views/home.dart';
-import 'package:wi_weather_app/utils/navigator.dart';
+import 'package:wi_weather_app/src/screens.dart';
+import 'package:wi_weather_app/src/utils.dart';
 
 class SplashViewModelController extends ChangeNotifier{
 
