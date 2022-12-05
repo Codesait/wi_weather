@@ -4,6 +4,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:wi_weather_app/utils/toasts.dart';
 
 class LocationService {
+  late Position position;
+
   // CHECKING IF LOCATION SERVICE IS AVAILABLE
   Future<bool> locationServiceEnabled() async {
     final serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -34,12 +36,11 @@ class LocationService {
     return permissionGranted;
   }
 
-  Future<String> longitude(Position position) async {
+  String longitude()  {
     return position.longitude.toString();
-  
   }
 
-  Future<String> latitude(Position position) async {
+  String latitude()  {
     return position.latitude.toString();
   }
 }
