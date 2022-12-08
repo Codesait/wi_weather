@@ -18,7 +18,7 @@ class LocationService {
   }
 
   //LOCATION PERMISSION
-  Future<bool> permissonGranted() async {
+  Future<bool> checkLocationPermisson() async {
     LocationPermission permission = await Geolocator.checkPermission();
     bool permissionGranted = false;
 
@@ -36,11 +36,17 @@ class LocationService {
     return permissionGranted;
   }
 
-  String longitude()  {
+  Future<Position> initPosition() async {
+    return position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+  }
+
+  String longitude() {
     return position.longitude.toString();
   }
 
-  String latitude()  {
+  String latitude() {
     return position.latitude.toString();
   }
 }
