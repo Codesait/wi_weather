@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wi_weather_app/screens/home/viewmodel/home_viewmodel.dart';
 import 'package:wi_weather_app/src/components.dart';
+import 'package:wi_weather_app/src/screens.dart';
 import 'package:wi_weather_app/src/utils.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {

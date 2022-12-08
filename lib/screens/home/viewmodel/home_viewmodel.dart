@@ -34,7 +34,6 @@ class HomeViewModel extends ChangeNotifier {
             locationService.initPosition().then((value) {
               longitude = value.longitude.toString();
               latitude = value.latitude.toString();
-              notifyListeners();
             });
           }),
         );
