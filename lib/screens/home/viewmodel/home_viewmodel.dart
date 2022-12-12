@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,6 +35,7 @@ class HomeViewModel extends ChangeNotifier {
             locationService.initPosition().then((value) {
               longitude = value.longitude.toString();
               latitude = value.latitude.toString();
+              log('$latitude $longitude');
             });
           }),
         );
