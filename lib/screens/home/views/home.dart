@@ -14,7 +14,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 class HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
-    ref.read(homeViewModel).load();
+    ref.read(homeViewModel).initLocation();
     super.initState();
   }
 
