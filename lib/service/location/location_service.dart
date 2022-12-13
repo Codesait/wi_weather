@@ -1,6 +1,8 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:geolocator/geolocator.dart';
+import 'package:wi_weather_app/service/core/api_service.dart';
 import 'package:wi_weather_app/utils/toasts.dart';
 
 class LocationService {
@@ -48,5 +50,29 @@ class LocationService {
 
   String latitude() {
     return position.latitude.toString();
+  }
+
+  // API CALLS
+  final apiService = ApiService();
+
+  final scheme = 'https';
+  final host = 'api.weatherapi.com';
+  final key = 'YOUR_KEY';
+
+  Future<dynamic> getWeather({
+    required String longitude,
+    required String latitude,
+  }) async {
+    return apiService.getMth(
+      Uri(
+        scheme: scheme,
+        host: host,
+        path: 'v1/forecast.json?q=$latitude,$longitude&key=$key&days=6',
+      ),
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.acceptHeader: 'application/json',
+      },
+    );
   }
 }
