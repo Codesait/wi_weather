@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wi_weather_app/service/location/location_service.dart';
 import 'package:wi_weather_app/src/model.dart';
 
 final homeViewModel = ChangeNotifierProvider((_) => HomeViewModel());
 
-class HomeViewModel extends ChangeNotifier {
+class HomeViewModel extends BaseModel {
   final locationService = LocationService();
 
   bool? isLocationEnabled;
@@ -25,31 +24,9 @@ class HomeViewModel extends ChangeNotifier {
   List<Forecastday>? _dailyForecastList;
   List<Forecastday>? get dailyForecastList => _dailyForecastList;
 
-  //* THIS FUTURE METHODE FETCHES WEATHER FORCAST FROM WEATHER API
-  Future<void> fetchWeather() async {
-    locationService
-        .getWeather(
-      longitude: longitude!,
-      latitude: latitude!,
-    )
-        .then((value) {
-      if (value != null) {
-        
-        //! TO BE CONTINUED
-        // WHEN WE HAVE DATA,
-        final data = Weather.fromJson(value);
-        _locationDetails = data.location;
-        _currentWeather = data.current;
-        _dailyForecastList = data.forecast!.forecastday;
-
-        // THEN NOTIFY BUILD LISTENERS
-        notifyListeners();
-      }
-    });
-  }
-
   //* THIS METHOD IS CALLED ON APP HOME PAGE INITIALISATION
   Future<void> initLocation() async {
+    loading(true);
     Future.wait(
       [
         locationService.locationServiceEnabled(),
@@ -65,23 +42,53 @@ class HomeViewModel extends ChangeNotifier {
           const Duration(seconds: 2),
           (() {
             //* INITIALIZING GEOLOCATOR AND GETTING
-            //* POSITIONS
+            //* POSITIONS DATA
             locationService.initPosition().then((value) {
               longitude = value.longitude.toString();
               latitude = value.latitude.toString();
+
+              //* LOG POSITION VALUES
+              log('lat =$latitude\nlong =$longitude');
 
               /// This is to ensure that the latitude and longitude is not null before calling the
               /// getWeather function.
               if (latitude != null && longitude != null) {
                 fetchWeather();
               }
-
-              //* LOG POSITION VALUES
-              log('lat =$latitude\nlong =$longitude');
             });
           }),
         );
       },
     );
+  }
+
+  //* THIS FUTURE METHODE FETCHES WEATHER FORCAST FROM WEATHER API
+  Future<void> fetchWeather() async {
+    locationService
+        .getWeather(
+      longitude: longitude!,
+      latitude: latitude!,
+    )
+        .then((value) {
+      if (value != null) {
+        //! TO BE CONTINUED
+        // WHEN WE HAVE DATA,
+        final data = Weather.fromJson(value);
+        _locationDetails = data.location;
+        _currentWeather = data.current;
+        _dailyForecastList = data.forecast!.forecastday;
+
+        // THEN NOTIFY BUILD LISTENERS
+        notifyListeners();
+      }
+
+      
+    }).whenComplete(() {
+      loading(false);
+    });
+  }
+
+  bool canShowView() {
+    return !isLoading && _locationDetails != null;
   }
 }

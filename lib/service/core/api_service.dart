@@ -1,11 +1,12 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:wi_weather_app/src/utils.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  final log = getLogger('Logger');
+  final clog = getLogger('Logger');
   final client = http.Client();
 
   final NetworkInfo networkInfo = NetworkInfo();
@@ -14,7 +15,7 @@ class ApiService {
     Uri uri, {
     Map<String, String>? headers,
   }) async {
-    log.i('Making request to $uri');
+    clog.i('Making request to $uri');
 
     try {
       if (await networkInfo.isConnected) {
@@ -32,7 +33,7 @@ class ApiService {
         Tst.show('Network Anomaly');
       }
     } on SocketException catch (e) {
-      log.e(e);
+      clog.e(e);
       Tst.show('Connection error\nCheck internet and try again');
       throw HttpException('$e');
     } on TimeoutException {
@@ -42,7 +43,6 @@ class ApiService {
     }
   }
 
-
   // RESPONSE DECODING
   dynamic _response(
     http.Response response,
@@ -51,25 +51,25 @@ class ApiService {
       case 200:
 
         ///* This is a catch block for when the server returns a 200 ok status.
-        log.i(response.statusCode);
-        log.i(response.body);
+        clog.i(response.statusCode);
+        log(response.body);
         return response.body;
       case 201:
 
         ///* This is a catch block for when the server returns a 201 created status.
-        log.i(response.statusCode);
-        log.i(response.body);
+        clog.i(response.statusCode);
+        clog.i(response.body);
         return response.body;
       case 400:
 
         ///* This is a catch block for when the server returns a 400 bad request status.
-        log.e(response.statusCode);
+        clog.e(response.statusCode);
 
         throw Exception(response.body);
       case 401:
 
         ///* This is a catch block for when the server returns a 401 unauthorised error.
-        log.e(response.statusCode);
+        clog.e(response.statusCode);
         Tst.show('Unauthorised');
 
         throw Exception(response.body);
@@ -77,7 +77,7 @@ class ApiService {
       case 403:
 
         ///* This is a catch block for when the server returns a 403 unauthorised error.
-        log.e(response.body);
+        clog.e(response.body);
         throw Exception(response.body);
 
       case 500:

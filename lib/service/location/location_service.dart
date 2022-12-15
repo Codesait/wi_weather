@@ -55,19 +55,27 @@ class LocationService {
   // API CALLS
   final apiService = ApiService();
 
-  final scheme = 'https';
+  final scheme = 'http';
   final host = 'api.weatherapi.com';
-  final key = 'YOUR_KEY';
+  final path = 'v1/forecast.json';
+  final key = 'ec6fd476f1864319a24121911220112';
+  //final key = 'YOUR_KEY';
 
   Future<dynamic> getWeather({
     required String longitude,
     required String latitude,
   }) async {
+    Map<String, dynamic> params = {
+      'key': key,
+      'q': '$latitude,$longitude',
+      'days': '6',
+    };
+
     return apiService.getMth(
-      Uri(
-        scheme: scheme,
-        host: host,
-        path: 'v1/forecast.json?q=$latitude,$longitude&key=$key&days=6',
+      Uri.http(
+        host,
+        path,
+        params,
       ),
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
