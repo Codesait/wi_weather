@@ -20,16 +20,23 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = ref.watch(homeViewModel);
+
     return Scaffold(
       body: SizedBox(
         height: fullHeight,
         width: fullWidth,
-        child: Stack(
-          children: const <Widget>[
-            WiHeader(),
-            CustomModal(),
-          ],
-        ),
+        child: provider.canShowView()
+            ? Stack(
+                children:  <Widget>[
+                  WiHeader(
+                    currentWeather: provider.currentWeather!,
+                    location: provider.locationDetails!,
+                  ),
+                  CustomModal(),
+                ],
+              )
+            : const Loading(),
       ),
     );
   }

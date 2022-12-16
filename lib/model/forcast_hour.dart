@@ -11,10 +11,10 @@ class Hour {
   double? windKph;
   int? windDegree;
   String? windDir;
-  int? pressureMb;
+  double? pressureMb;
   double? pressureIn;
-  int? precipMm;
-  int? precipIn;
+  double? precipMm;
+  double? precipIn;
   int? humidity;
   int? cloud;
   double? feelslikeC;
@@ -29,11 +29,11 @@ class Hour {
   int? chanceOfRain;
   int? willItSnow;
   int? chanceOfSnow;
-  int? visKm;
-  int? visMiles;
+  double? visKm;
+  double? visMiles;
   double? gustMph;
   double? gustKph;
-  int? uv;
+  double? uv;
 
   Hour(
       {this.timeEpoch,
@@ -77,7 +77,7 @@ class Hour {
     tempF = json['temp_f'];
     isDay = json['is_day'];
     condition = json['condition'] != null
-        ? new Condition.fromJson(json['condition'])
+        ?  Condition.fromJson(json['condition'])
         : null;
     windMph = json['wind_mph'];
     windKph = json['wind_kph'];

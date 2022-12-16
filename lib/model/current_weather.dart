@@ -3,7 +3,7 @@ import 'package:wi_weather_app/src/model.dart';
 class Current {
   int? lastUpdatedEpoch;
   String? lastUpdated;
-  int? tempC;
+  double? tempC;
   double? tempF;
   int? isDay;
   Condition? condition;
@@ -11,18 +11,18 @@ class Current {
   double? windKph;
   int? windDegree;
   String? windDir;
-  int? pressureMb;
+  double? pressureMb;
   double? pressureIn;
-  int? precipMm;
-  int? precipIn;
+  double? precipMm;
+  double? precipIn;
   int? humidity;
   int? cloud;
   double? feelslikeC;
   double? feelslikeF;
-  int? visKm;
-  int? visMiles;
-  int? uv;
-  int? gustMph;
+  double? visKm;
+  double? visMiles;
+  double? uv;
+  double? gustMph;
   double? gustKph;
 
   Current(
@@ -57,7 +57,7 @@ class Current {
     tempF = json['temp_f'];
     isDay = json['is_day'];
     condition = json['condition'] != null
-        ? new Condition.fromJson(json['condition'])
+        ?  Condition.fromJson(json['condition'])
         : null;
     windMph = json['wind_mph'];
     windKph = json['wind_kph'];

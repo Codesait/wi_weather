@@ -58,7 +58,7 @@ class LocationService {
   final scheme = 'http';
   final host = 'api.weatherapi.com';
   final path = 'v1/forecast.json';
-  final key = 'ec6fd476f1864319a24121911220112';
+  final key = '5f4656ac41434a39b5920436221612';
   //final key = 'YOUR_KEY';
 
   Future<dynamic> getWeather({

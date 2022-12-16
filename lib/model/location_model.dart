@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class Location {
   String? name;
   String? region;
@@ -17,6 +19,8 @@ class Location {
       this.tzId,
       this.localtimeEpoch,
       this.localtime});
+
+  String get formattedTime => DateFormat.yMMMMEEEEd().format(DateTime.parse(localtime!));
 
   Location.fromJson(Map<String, dynamic> json) {
     name = json['name'];

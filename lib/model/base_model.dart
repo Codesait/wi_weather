@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ class BaseModel extends ChangeNotifier {
 
   loading(bool res) {
     isLoading = res;
+    log(isLoading.toString());
     notifyListeners();
   }
 

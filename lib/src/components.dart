@@ -11,3 +11,4 @@ export '../components/reusables/current_weather_detail_item.dart';
 export '../components/reusables/gap.dart';
 export '../components/reusables/prediction_list_item.dart';
 export '../components/reusables/weather_large_text.dart';
+export '../components/reusables/loading.dart';

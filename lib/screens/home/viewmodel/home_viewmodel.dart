@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -63,7 +64,7 @@ class HomeViewModel extends BaseModel {
   }
 
   //* THIS FUTURE METHODE FETCHES WEATHER FORCAST FROM WEATHER API
-  Future<void> fetchWeather() async {
+  Future<void> fetchWeather({bool? isReloading}) async {
     locationService
         .getWeather(
       longitude: longitude!,
@@ -73,16 +74,16 @@ class HomeViewModel extends BaseModel {
       if (value != null) {
         //! TO BE CONTINUED
         // WHEN WE HAVE DATA,
-        final data = Weather.fromJson(value);
+        final data = Weather.fromJson(json.decode(value));
         _locationDetails = data.location;
         _currentWeather = data.current;
         _dailyForecastList = data.forecast!.forecastday;
 
-        // THEN NOTIFY BUILD LISTENERS
-        notifyListeners();
+        //  NOTIFY BUILD LISTENERS IF THIS IS A RELOAD CALL
+        if (isLoading) {
+          notifyListeners();
+        }
       }
-
-      
     }).whenComplete(() {
       loading(false);
     });

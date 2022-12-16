@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:wi_weather_app/components/custom/wi_header/header_controller.dart';
+import 'package:wi_weather_app/model/current_weather.dart';
+import 'package:wi_weather_app/model/location_model.dart';
 import 'package:wi_weather_app/res/constants/app_colors.dart';
 import 'package:wi_weather_app/utils/extension.dart';
 
 class WiHeader extends StatefulWidget {
-  const WiHeader({super.key});
+  const WiHeader({
+    super.key,
+    required this.currentWeather,
+    required this.location,
+  });
+
+  final Location location;
+  final Current currentWeather;
 
   @override
   State<WiHeader> createState() => _WiHeaderState();
@@ -20,7 +29,12 @@ class _WiHeaderState extends State<WiHeader> {
       height: headerController.headerHeight - 30,
       child: Column(
         children: <Widget>[
-          HeaderTitle(controller: headerController),
+          HeaderTitle(
+            controller: headerController,
+            locationCountry: widget.location.name!,
+            locationName: widget.location.country!,
+            localTime: widget.location.formattedTime,
+          ),
           const Expanded(
             flex: 4,
             child: WeatherVector(),
@@ -36,8 +50,17 @@ class _WiHeaderState extends State<WiHeader> {
 }
 
 class HeaderTitle extends StatelessWidget {
-  const HeaderTitle({super.key, required this.controller});
+  const HeaderTitle({
+    super.key,
+    required this.controller,
+    required this.locationCountry,
+    required this.locationName,
+    required this.localTime,
+  });
   final HeaderController controller;
+  final String locationName;
+  final String locationCountry;
+  final String localTime;
 
   @override
   Widget build(BuildContext context) {
@@ -47,17 +70,17 @@ class HeaderTitle extends StatelessWidget {
       width: fullWidth,
       alignment: Alignment.bottomCenter,
       child: ListTile(
-        title: const Text(
-          'Halo',
-          style: TextStyle(
+        title: Text(
+          '$locationName, $locationCountry',
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: AppColors.white,
             fontSize: 18,
           ),
         ),
-        subtitle: const Text(
-          'Today, Sept 8 9:00 PM',
-          style: TextStyle(
+        subtitle: Text(
+          localTime,
+          style: const TextStyle(
             fontWeight: FontWeight.normal,
             color: AppColors.white,
           ),
