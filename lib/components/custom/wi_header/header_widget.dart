@@ -39,9 +39,12 @@ class _WiHeaderState extends State<WiHeader> {
             flex: 4,
             child: WeatherVector(),
           ),
-          const Expanded(
+          Expanded(
             flex: 4,
-            child: WeatherReading(),
+            child: WeatherReading(
+              temp: widget.currentWeather.tempC!.round().toString(),
+              condition: widget.currentWeather.condition!.text!,
+            ),
           )
         ],
       ),
@@ -70,12 +73,16 @@ class HeaderTitle extends StatelessWidget {
       width: fullWidth,
       alignment: Alignment.bottomCenter,
       child: ListTile(
-        title: Text(
-          '$locationName, $locationCountry',
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            color: AppColors.white,
-            fontSize: 18,
+        contentPadding: const EdgeInsets.symmetric(vertical: 20),
+        title: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Text(
+            '$locationName, $locationCountry',
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: AppColors.white,
+              fontSize: 16        ,
+            ),
           ),
         ),
         subtitle: Text(
@@ -108,7 +115,13 @@ class WeatherVector extends StatelessWidget {
 }
 
 class WeatherReading extends StatelessWidget {
-  const WeatherReading({super.key});
+  const WeatherReading({
+    super.key,
+    required this.temp,
+    required this.condition,
+  });
+  final String temp;
+  final String condition;
 
   @override
   Widget build(BuildContext context) {
@@ -119,18 +132,18 @@ class WeatherReading extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '21'.inDegree,
+            temp.inDegree,
             style: const TextStyle(
-                fontSize: 90,
+                fontSize: 80,
                 fontWeight: FontWeight.bold,
                 color: AppColors.white),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
+            children: [
               Text(
-                'Sunny',
-                style: TextStyle(
+                condition,
+                style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,
                     color: AppColors.white),

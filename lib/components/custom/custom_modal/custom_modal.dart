@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wi_weather_app/src/components.dart';
+import 'package:wi_weather_app/src/model.dart';
 import 'package:wi_weather_app/src/res.dart';
+import 'package:wi_weather_app/src/screens.dart';
 import 'package:wi_weather_app/src/utils.dart';
 
-class CustomModal extends StatefulWidget {
+class CustomModal extends ConsumerStatefulWidget {
   const CustomModal({super.key});
 
   @override
-  State<CustomModal> createState() => _CustomModalState();
+  CustomModalState createState() => CustomModalState();
 }
 
-class _CustomModalState extends State<CustomModal>
+class CustomModalState extends ConsumerState<CustomModal>
     with SingleTickerProviderStateMixin {
   final modalController = ModalController();
 
@@ -31,6 +34,8 @@ class _CustomModalState extends State<CustomModal>
 
   @override
   Widget build(BuildContext context) {
+    final provider = ref.watch(homeViewModel);
+
     return AnimatedBuilder(
       animation: modalController.animationController,
       builder: (context, _) {
@@ -60,7 +65,10 @@ class _CustomModalState extends State<CustomModal>
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        CurrentWeatherDetails(modalController: modalController),
+                        CurrentWeatherDetails(
+                          modalController: modalController,
+                          current: provider.currentWeather!,
+                        ),
                         const Gap(dimension: 20),
                         WeatherPredictions(controller: modalController),
                       ],
@@ -94,14 +102,15 @@ class CurrentWeatherDetails extends StatelessWidget {
   const CurrentWeatherDetails({
     super.key,
     required this.modalController,
+    required this.current,
   });
 
   final ModalController modalController;
+  final Current current;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      //height: modalController.modalMinHeight / 1.2,
       width: fullWidth,
       padding: const EdgeInsets.symmetric(horizontal: 10),
       margin: const EdgeInsets.only(top: 10),
@@ -118,20 +127,39 @@ class CurrentWeatherDetails extends StatelessWidget {
           const SizedBox.square(
             dimension: 20,
           ),
-          GridView.builder(
-            itemCount: 4,
+
+          GridView(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             padding: const EdgeInsets.symmetric(horizontal: 5),
-            itemBuilder: (context, index) {
-              return const CurrentWeatherItem();
-            },
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               mainAxisSpacing: 5,
               crossAxisSpacing: 20,
               childAspectRatio: 3,
             ),
+            children: [
+              CurrentWeatherItem(
+                readTitle: 'Feel like',
+                val: current.feelslikeC.toString().inDegree,
+                icon: AppAssets.tempIcon,
+              ),
+              CurrentWeatherItem(
+                readTitle: 'Wind',
+                val: current.windKph.toString().inKmPerHr,
+                icon: AppAssets.airIcon,
+              ),
+              CurrentWeatherItem(
+                readTitle: 'Perciitation',
+                val: current.precipIn!.round().toString().inPercent,
+                icon: AppAssets.rainIcon,
+              ),
+              CurrentWeatherItem(
+                readTitle: 'Humidity',
+                val: current.humidity.toString().inPercent,
+                icon: AppAssets.humidityIcon,
+              ),
+            ],
           ),
         ],
       ),

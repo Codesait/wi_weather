@@ -2,11 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wi_weather_app/src/components.dart';
 import 'package:wi_weather_app/src/res.dart';
-import 'package:wi_weather_app/src/utils.dart';
-
 
 class CurrentWeatherItem extends StatelessWidget {
-  const CurrentWeatherItem({super.key});
+  const CurrentWeatherItem({
+    super.key,
+    required this.val,
+    required this.readTitle,
+    required this.icon,
+    
+  });
+
+  final String readTitle;
+  final String val;
+  final String icon;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +28,7 @@ class CurrentWeatherItem extends StatelessWidget {
             backgroundColor: AppColors.grey.withOpacity(0.1),
             child: Center(
               child: SvgPicture.asset(
-                AppAssets.rainIcon,
+                icon,
                 height: 25,
                 width: 25,
               ),
@@ -35,7 +43,7 @@ class CurrentWeatherItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Feel like',
+                readTitle,
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   color: AppColors.grey.withOpacity(0.5),
@@ -44,7 +52,7 @@ class CurrentWeatherItem extends StatelessWidget {
               ),
               const Gap(dimension: 5),
               Text(
-                '20'.inDegree,
+                val,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: AppColors.black,
