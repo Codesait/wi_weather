@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:wi_weather_app/src/model.dart';
 
 class Forecast {
@@ -31,6 +32,8 @@ class Forecastday {
   List<Hour>? hour;
 
   Forecastday({this.date, this.dateEpoch, this.day, this.astro, this.hour});
+
+  String? get formattedDate => DateFormat('EEEE').format(DateTime.parse(date!));
 
   Forecastday.fromJson(Map<String, dynamic> json) {
     date = json['date'];
@@ -195,4 +198,3 @@ class Astro {
     return data;
   }
 }
-

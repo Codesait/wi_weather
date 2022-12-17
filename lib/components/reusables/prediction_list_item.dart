@@ -3,7 +3,15 @@ import 'package:wi_weather_app/src/res.dart';
 import 'package:wi_weather_app/src/utils.dart';
 
 class PredictionListItem extends StatelessWidget {
-  const PredictionListItem({super.key});
+  const PredictionListItem({
+    super.key,
+    required this.weekDay,
+    required this.temp,
+    required this.condition,
+  });
+  final String weekDay;
+  final String temp;
+  final String condition;
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +30,11 @@ class PredictionListItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           // Day of the week
-          const Expanded(
+           Expanded(
             flex: 2,
             child: Text(
-              'Today',
-              style: TextStyle(
+              weekDay,
+              style: const TextStyle(
                 color: AppColors.black,
                 fontSize: 16,
               ),
@@ -36,7 +44,7 @@ class PredictionListItem extends StatelessWidget {
           // temperature value
           Expanded(
             child: Text(
-              '16'.inDegree,
+              temp.inDegree,
               style: const TextStyle(
                 color: AppColors.black,
                 fontSize: 16,
@@ -45,10 +53,10 @@ class PredictionListItem extends StatelessWidget {
           ),
 
           // weather state
-          const Expanded(
+           Expanded(
             child: Text(
-              'Cloudy',
-              style: TextStyle(
+              condition,
+              style: const TextStyle(
                 color: AppColors.black,
                 fontSize: 16,
               ),

@@ -22,8 +22,8 @@ class HomeViewModel extends BaseModel {
   Current? _currentWeather;
   Current? get currentWeather => _currentWeather;
 
-  List<Forecastday>? _dailyForecastList;
-  List<Forecastday>? get dailyForecastList => _dailyForecastList;
+  Forecast? _dailyForecast;
+  Forecast? get dailyForecast => _dailyForecast;
 
   //* THIS METHOD IS CALLED ON APP HOME PAGE INITIALISATION
   Future<void> initLocation() async {
@@ -77,7 +77,7 @@ class HomeViewModel extends BaseModel {
         final data = Weather.fromJson(json.decode(value));
         _locationDetails = data.location;
         _currentWeather = data.current;
-        _dailyForecastList = data.forecast!.forecastday;
+        _dailyForecast = data.forecast!;
 
         //  NOTIFY BUILD LISTENERS IF THIS IS A RELOAD CALL
         if (isLoading) {

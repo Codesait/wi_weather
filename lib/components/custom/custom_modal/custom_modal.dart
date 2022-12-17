@@ -70,7 +70,10 @@ class CustomModalState extends ConsumerState<CustomModal>
                           current: provider.currentWeather!,
                         ),
                         const Gap(dimension: 20),
-                        WeatherPredictions(controller: modalController),
+                        WeatherPredictions(
+                          controller: modalController,
+                          forecast: provider.dailyForecast!,
+                        ),
                       ],
                     ),
                   ),
@@ -171,8 +174,10 @@ class WeatherPredictions extends StatelessWidget {
   const WeatherPredictions({
     super.key,
     required this.controller,
+    required this.forecast,
   });
   final ModalController controller;
+  final Forecast forecast;
 
   @override
   Widget build(BuildContext context) {
@@ -205,7 +210,9 @@ class WeatherPredictions extends StatelessWidget {
                 maxHeight: controller.modalFullHeight / 2.4,
                 minWidth: fullWidth,
               ),
-              child: const Predictions(),
+              child: Predictions(
+                predictions: forecast.forecastday!,
+              ),
             ),
           ],
         ),
@@ -215,17 +222,26 @@ class WeatherPredictions extends StatelessWidget {
 }
 
 class Predictions extends StatelessWidget {
-  const Predictions({super.key});
+  const Predictions({
+    super.key,
+    required this.predictions,
+  });
+  final List<Forecastday> predictions;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: 7,
+      itemCount: predictions.length,
       padding: const EdgeInsets.only(bottom: 60),
       physics: const BouncingScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        return const PredictionListItem();
+        final weekDay = predictions[index];
+        return PredictionListItem(
+          weekDay: weekDay.formattedDate!,
+          temp: weekDay.day!.maxtempC!.round().toString(),
+          condition: weekDay.day!.condition!.text!,
+        );
       },
     );
   }

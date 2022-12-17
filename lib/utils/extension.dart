@@ -8,7 +8,7 @@ double get fullWidth =>
     MediaQuery.of(navigatorKey.currentState!.context).size.width;
 
 extension StringSymbol on String {
-  String get inDegree => '$this \u00B0';
+  String get inDegree => '$this\u00B0';
   String get inKmPerHr => '$this km/h';
   String get inPercent => '$this %';
 }
