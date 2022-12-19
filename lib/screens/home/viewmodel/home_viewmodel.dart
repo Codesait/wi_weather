@@ -64,7 +64,7 @@ class HomeViewModel extends BaseModel {
   }
 
   //* THIS FUTURE METHODE FETCHES WEATHER FORCAST FROM WEATHER API
-  Future<void> fetchWeather({bool? isReloading}) async {
+  Future<void> fetchWeather({bool isReloading  = false}) async {
     locationService
         .getWeather(
       longitude: longitude!,
@@ -80,12 +80,12 @@ class HomeViewModel extends BaseModel {
         _dailyForecast = data.forecast!;
 
         //  NOTIFY BUILD LISTENERS IF THIS IS A RELOAD CALL
-        if (isLoading) {
+        if (isReloading) {
           notifyListeners();
         }
       }
     }).whenComplete(() {
-      loading(false);
+      loading(false,canRebuild: true);
     });
   }
 

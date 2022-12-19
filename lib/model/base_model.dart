@@ -9,10 +9,11 @@ class BaseModel extends ChangeNotifier {
 
   bool isLoading = false;
 
-  loading(bool res) {
+  loading(bool res, {bool canRebuild = false}) {
     isLoading = res;
     log(isLoading.toString());
-    notifyListeners();
+
+    if (canRebuild) notifyListeners();
   }
 
   late AnimationController animationController;

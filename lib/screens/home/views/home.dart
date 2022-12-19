@@ -33,7 +33,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                     currentWeather: provider.currentWeather!,
                     location: provider.locationDetails!,
                   ),
-                  CustomModal(),
+                const CustomModal(),
                 ],
               )
             : const Loading(),

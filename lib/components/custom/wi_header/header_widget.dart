@@ -33,7 +33,7 @@ class _WiHeaderState extends State<WiHeader> {
             controller: headerController,
             locationCountry: widget.location.name!,
             locationName: widget.location.country!,
-            localTime: widget.location.formattedTime,
+            localTime: widget.currentWeather.formattedTime,
           ),
           const Expanded(
             flex: 4,
@@ -81,7 +81,7 @@ class HeaderTitle extends StatelessWidget {
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               color: AppColors.white,
-              fontSize: 16        ,
+              fontSize: 16,
             ),
           ),
         ),

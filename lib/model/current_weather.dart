@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:wi_weather_app/src/model.dart';
 
 class Current {
@@ -49,6 +50,9 @@ class Current {
       this.uv,
       this.gustMph,
       this.gustKph});
+
+        String get formattedTime =>
+      DateFormat('EEEE, MMMM d  hh:mm a').format(DateTime.parse(lastUpdated!));
 
   Current.fromJson(Map<String, dynamic> json) {
     lastUpdatedEpoch = json['last_updated_epoch'];
