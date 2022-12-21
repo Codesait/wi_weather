@@ -12,3 +12,4 @@ export '../components/reusables/gap.dart';
 export '../components/reusables/prediction_list_item.dart';
 export '../components/reusables/weather_large_text.dart';
 export '../components/reusables/loading.dart';
+export '../components/reusables/weather_pred_hour_item.dart';

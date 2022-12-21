@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:wi_weather_app/src/model.dart';
 
 class Hour {
@@ -147,4 +148,8 @@ class Hour {
     data['uv'] = uv;
     return data;
   }
+
+
+  String get formattedTime =>
+      DateFormat('hh:mm a').format(DateTime.parse(time!));
 }

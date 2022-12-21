@@ -241,6 +241,7 @@ class Predictions extends StatelessWidget {
           weekDay: weekDay.formattedDate!,
           temp: weekDay.day!.maxtempC!.round().toString(),
           condition: weekDay.day!.condition!.text!,
+          hourlyPredictions: weekDay.hour!,
         );
       },
     );
