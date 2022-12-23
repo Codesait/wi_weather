@@ -49,7 +49,7 @@ class CustomModalState extends ConsumerState<CustomModal>
             onVerticalDragEnd: modalController.handleDragEnd,
             child: Container(
               color: Colors.white,
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
               child: Stack(
                 children: [
                   Positioned(
@@ -184,7 +184,7 @@ class WeatherPredictions extends StatelessWidget {
     return Opacity(
       opacity: controller.animationController.value,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -207,7 +207,7 @@ class WeatherPredictions extends StatelessWidget {
             Container(
               constraints: BoxConstraints(
                 minHeight: controller.modalFullHeight / 3,
-                maxHeight: controller.modalFullHeight / 2.4,
+                maxHeight: controller.modalFullHeight / 2,
                 minWidth: fullWidth,
               ),
               child: Predictions(
@@ -221,7 +221,7 @@ class WeatherPredictions extends StatelessWidget {
   }
 }
 
-class Predictions extends StatelessWidget {
+class Predictions extends StatefulWidget {
   const Predictions({
     super.key,
     required this.predictions,
@@ -229,19 +229,41 @@ class Predictions extends StatelessWidget {
   final List<Forecastday> predictions;
 
   @override
+  State<Predictions> createState() => _PredictionsState();
+}
+
+class _PredictionsState extends State<Predictions> {
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: 0, viewportFraction: 0.9);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pageController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: predictions.length,
-      padding: const EdgeInsets.only(bottom: 60),
+    return PageView.builder(
+      controller: _pageController,
+      itemCount: widget.predictions.length,
       physics: const BouncingScrollPhysics(),
-      shrinkWrap: true,
+      scrollDirection: Axis.horizontal,
       itemBuilder: (context, index) {
-        final weekDay = predictions[index];
-        return PredictionListItem(
-          weekDay: weekDay.formattedDate!,
-          temp: weekDay.day!.maxtempC!.round().toString(),
-          condition: weekDay.day!.condition!.text!,
-          hourlyPredictions: weekDay.hour!,
+        final weekDay = widget.predictions[index];
+        return AspectRatio(
+          aspectRatio: 2,
+          child: PredictionListItem(
+            weekDay: weekDay.formattedDate!,
+            temp: weekDay.day!.maxtempC!.round().toString(),
+            condition: weekDay.day!.condition!.text!,
+            hourlyPredictions: weekDay.hour!,
+          ),
         );
       },
     );

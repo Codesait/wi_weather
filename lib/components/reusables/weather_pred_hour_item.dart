@@ -14,7 +14,7 @@ class HourlyPredictionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.only(bottom: 40),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -29,7 +29,6 @@ class HourlyPredictionItem extends StatelessWidget {
           GridView(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            padding: const EdgeInsets.symmetric(horizontal: 5),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               mainAxisSpacing: 5,
@@ -42,20 +41,26 @@ class HourlyPredictionItem extends StatelessWidget {
                 val: hour.feelslikeC.toString().inDegree,
                 icon: AppAssets.tempIcon,
               ),
-              CurrentWeatherItem(
-                readTitle: 'Wind',
-                val: hour.windKph.toString().inKmPerHr,
-                icon: AppAssets.airIcon,
+              FittedBox(
+                child: CurrentWeatherItem(
+                  readTitle: 'Wind',
+                  val: hour.windKph.toString().inKmPerHr,
+                  icon: AppAssets.airIcon,
+                ),
               ),
-              CurrentWeatherItem(
-                readTitle: 'Perciitation',
-                val: hour.precipIn!.round().toString().inPercent,
-                icon: AppAssets.rainIcon,
+              FittedBox(
+                child: CurrentWeatherItem(
+                  readTitle: 'Perciitation',
+                  val: hour.precipIn!.round().toString().inPercent,
+                  icon: AppAssets.rainIcon,
+                ),
               ),
-              CurrentWeatherItem(
-                readTitle: 'Humidity',
-                val: hour.humidity.toString().inPercent,
-                icon: AppAssets.humidityIcon,
+              FittedBox(
+                child: CurrentWeatherItem(
+                  readTitle: 'Humidity',
+                  val: hour.humidity.toString().inPercent,
+                  icon: AppAssets.humidityIcon,
+                ),
               ),
             ],
           ),
