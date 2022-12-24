@@ -52,7 +52,9 @@ class _PredictionListItemState extends State<PredictionListItem> {
                     widget.weekDay,
                     style: const TextStyle(
                       color: AppColors.black,
-                      fontSize: 16,
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
                     ),
                   ),
                 ),
@@ -63,18 +65,22 @@ class _PredictionListItemState extends State<PredictionListItem> {
                     widget.temp.inDegree,
                     style: const TextStyle(
                       color: AppColors.black,
-                      fontSize: 16,
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
                     ),
                   ),
                 ),
 
                 // weather state
-                Expanded(
+                Flexible(
                   child: Text(
                     widget.condition,
                     style: const TextStyle(
                       color: AppColors.black,
-                      fontSize: 16,
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
                     ),
                   ),
                 ),
