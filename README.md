@@ -7,6 +7,9 @@
 Show some love 💜 and Star ⭐️ the Repository to support the project.
 </p>
 
+<img src="https://user-images.githubusercontent.com/37216036/209427768-9fa2d02e-54bc-4530-a65a-88b4cb9d66a7.png" width="150" height="280"> <img src="https://user-images.githubusercontent.com/37216036/209428138-44d561e2-8073-4062-95aa-898dd70cac98.png" width="150" height="280">
+
+
 ## :rocket: Get Up and Running in 5 Minutes
 
 You can get the EasyWeather up and running on your local dev environment in 5 minutes with these four steps:
@@ -36,9 +39,7 @@ At this point, you’ve got the fully functional Wi weather App running. For add
 - [cupertino_icons](https://pub.dev/packages/cupertino_icons)
 - [intl](https://pub.dev/packages/intl)
 - [geolocator](https://pub.dev/packages/geolocator)
-- [share](https://pub.dev/packages/share)
 - [http](https://pub.dev/packages/http)
-- [url_launcher](https://pub.dev/packages/url_launcher)
 
 
 
