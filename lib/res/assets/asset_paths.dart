@@ -6,6 +6,7 @@ class AppAssets {
   static String sunnyImage = 'sunny'.png;
   static String thunderImage = 'thunder_storm'.png;
   static String winterImage = 'winter'.png;
+  static String cloudyImage = 'cloudy'.png;
 
   // icon assets
   static String airIcon = 'air'.svg;

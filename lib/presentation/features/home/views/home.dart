@@ -23,19 +23,28 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
 
     return Scaffold(
       appBar: const HomeAppbarWidget(),
-      body: Container(
-        height: fullHeight,
-        width: fullWidth,
-        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-        child: const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            WeatherDescription(),
-            Expanded(
-              child: Placeholder(),
-            ),
-          ],
+      body: SafeArea(
+        child: Container(
+          height: fullHeight,
+          width: fullWidth,
+          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              const WeatherDescription(),
+              const ForcastIconIndicator(),
+              SizedBox(
+                height: fullHeight / 5,
+                child: const Placeholder(),
+              ),
+              const Gap(70)
+            ],
+          ),
         ),
+      ),
+      bottomSheet:  Container(
+        height: 70,
+        child: Placeholder(),
       ),
     );
   }

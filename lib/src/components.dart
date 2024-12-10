@@ -15,3 +15,4 @@ export '../presentation/components/shared/button.dart';
 
 // home
 export '../presentation/features/home/widget/weather_description.dart';
+export '../presentation/features/home/widget/forcast_icon_indicator.dart';

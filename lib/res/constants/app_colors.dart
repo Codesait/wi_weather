@@ -8,4 +8,5 @@ class AppColors {
   static const grey = Color(0xff9BA1AB);
   static const offWhite = Color.fromARGB(255, 240, 237, 237);
   static const lightOrange = Color.fromARGB(255, 229, 112, 10);
+  static const myBlue = Color(0xffaeb8ff);
 }
