@@ -1,8 +1,8 @@
 
 // home
-export '../screens/home/views/home.dart';
-export '../screens/home/viewmodel/home_viewmodel.dart';
+export '../presentation/features/home/views/home.dart';
+export '../presentation/features/home/viewmodel/home_viewmodel.dart';
 
 // splash
-export '../screens/splash/splash_screen.dart';
-export '../screens/splash/viewmodel.dart';
+export '../presentation/features/splash/splash_screen.dart';
+export '../presentation/features/splash/viewmodel.dart';

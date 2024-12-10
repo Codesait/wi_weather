@@ -35,7 +35,7 @@ class CurrentWeatherItem extends StatelessWidget {
             ),
           ),
 
-          const Gap(dimension: 10),
+          const Gap( 10),
 
           // weather description
           Column(
@@ -50,7 +50,7 @@ class CurrentWeatherItem extends StatelessWidget {
                   fontSize: 14,
                 ),
               ),
-              const Gap(dimension: 5),
+              const Gap( 5),
               Text(
                 val,
                 style: const TextStyle(

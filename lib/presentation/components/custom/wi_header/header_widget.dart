@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wi_weather_app/components/custom/wi_header/header_controller.dart';
+import 'package:wi_weather_app/presentation/components/custom/wi_header/header_controller.dart';
 import 'package:wi_weather_app/model/current_weather.dart';
 import 'package:wi_weather_app/model/location_model.dart';
 import 'package:wi_weather_app/res/constants/app_colors.dart';

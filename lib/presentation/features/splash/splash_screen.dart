@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wi_weather_app/screens/splash/viewmodel.dart';
+import 'package:wi_weather_app/presentation/features/splash/viewmodel.dart';
 import 'package:wi_weather_app/utils/extension.dart';
 
 class WiSplash extends StatefulWidget {

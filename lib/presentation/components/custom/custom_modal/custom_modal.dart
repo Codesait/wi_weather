@@ -69,7 +69,7 @@ class CustomModalState extends ConsumerState<CustomModal>
                           modalController: modalController,
                           current: provider.currentWeather!,
                         ),
-                        const Gap(dimension: 20),
+                        const Gap(20),
                         WeatherPredictions(controller: modalController),
                       ],
                     ),
@@ -198,7 +198,7 @@ class WeatherPredictions extends StatelessWidget {
                 ),
               ],
             ),
-            const Gap(dimension: 10),
+            const Gap(10),
             Container(
               constraints: BoxConstraints(
                 minHeight: controller.modalFullHeight / 3,

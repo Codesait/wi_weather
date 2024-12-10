@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wi_weather_app/src/components.dart';
-import 'package:wi_weather_app/src/screens.dart';
 import 'package:wi_weather_app/src/utils.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -14,29 +13,29 @@ class HomeScreen extends ConsumerStatefulWidget {
 class HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
-    ref.read(homeViewModel).initLocation();
+    // ref.read(homeViewModel).initLocation();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = ref.watch(homeViewModel);
+    //final provider = ref.watch(homeViewModel);
 
     return Scaffold(
-      body: SizedBox(
+      appBar: const HomeAppbarWidget(),
+      body: Container(
         height: fullHeight,
         width: fullWidth,
-        child: provider.canShowView()
-            ? Stack(
-                children:  <Widget>[
-                  WiHeader(
-                    currentWeather: provider.currentWeather!,
-                    location: provider.locationDetails!,
-                  ),
-                  CustomModal(),
-                ],
-              )
-            : const Loading(),
+        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            WeatherDescription(),
+            Expanded(
+              child: Placeholder(),
+            ),
+          ],
+        ),
       ),
     );
   }

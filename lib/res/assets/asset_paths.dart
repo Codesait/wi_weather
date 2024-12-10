@@ -12,4 +12,7 @@ class AppAssets {
   static String tempIcon = 'temperature'.svg;
   static String humidityIcon = 'humidity'.svg;
   static String rainIcon = 'rain'.svg;
+  static String brightnessIcon = 'brightness_Icon'.svg;
+  static String locationIcon = 'location'.svg;
+  static String personIcon = 'person'.svg;
 }
