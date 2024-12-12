@@ -86,9 +86,9 @@ class _LocationIndicatorAndSelector extends StatelessWidget {
           ),
           Icon(
             Icons.arrow_drop_down_rounded,
-            color: theme.iconTheme.color!,
+            color: theme.iconTheme.color,
             size: 23,
-          )
+          ),
         ],
       ),
     );

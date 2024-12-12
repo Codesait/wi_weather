@@ -5,10 +5,7 @@ import 'package:wi_weather_app/src/res.dart';
 
 class CurrentWeatherItem extends StatelessWidget {
   const CurrentWeatherItem({
-    super.key,
-    required this.val,
-    required this.readTitle,
-    required this.icon,
+    required this.val, required this.readTitle, required this.icon, super.key,
     
   });
 
@@ -58,9 +55,9 @@ class CurrentWeatherItem extends StatelessWidget {
                   color: AppColors.black,
                   fontSize: 15,
                 ),
-              )
+              ),
             ],
-          )
+          ),
         ],
       ),
     );

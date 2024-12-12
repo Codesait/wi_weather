@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wi_weather_app/src/screens.dart';
 import 'package:wi_weather_app/src/service.dart';
-import 'src/screens.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -20,6 +20,6 @@ class MyApp extends StatelessWidget {
             darkTheme: AppTheme.darkTheme,
             home: const WiSplash(),
           );
-        });
+        },);
   }
 }

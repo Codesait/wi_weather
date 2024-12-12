@@ -63,7 +63,6 @@ class CustomModalState extends ConsumerState<CustomModal>
                     left: 0,
                     right: 0,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         CurrentWeatherDetails(
                           modalController: modalController,
@@ -100,9 +99,7 @@ class CustomModalState extends ConsumerState<CustomModal>
 
 class CurrentWeatherDetails extends StatelessWidget {
   const CurrentWeatherDetails({
-    super.key,
-    required this.modalController,
-    required this.current,
+    required this.modalController, required this.current, super.key,
   });
 
   final ModalController modalController;
@@ -169,8 +166,7 @@ class CurrentWeatherDetails extends StatelessWidget {
 
 class WeatherPredictions extends StatelessWidget {
   const WeatherPredictions({
-    super.key,
-    required this.controller,
+    required this.controller, super.key,
   });
   final ModalController controller;
 

@@ -9,7 +9,7 @@ class BaseModel extends ChangeNotifier {
 
   bool isLoading = false;
 
-  loading(bool res) {
+  void loading(bool res) {
     isLoading = res;
     log(isLoading.toString());
     notifyListeners();

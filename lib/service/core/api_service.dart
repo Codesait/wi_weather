@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:wi_weather_app/src/utils.dart';
 import 'package:http/http.dart' as http;
+import 'package:wi_weather_app/src/utils.dart';
 
 class ApiService {
   final clog = getLogger('Logger');

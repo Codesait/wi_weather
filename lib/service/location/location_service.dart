@@ -21,8 +21,8 @@ class LocationService {
 
   //LOCATION PERMISSION
   Future<bool> checkLocationPermisson() async {
-    LocationPermission permission = await Geolocator.checkPermission();
-    bool permissionGranted = false;
+    var permission = await Geolocator.checkPermission();
+    var permissionGranted = false;
 
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
@@ -32,7 +32,7 @@ class LocationService {
         log("'Location permissions are permanently denied");
       }
     } else {
-      log("GPS Location permission granted.");
+      log('GPS Location permission granted.');
       permissionGranted = true;
     }
     return permissionGranted;
@@ -65,7 +65,7 @@ class LocationService {
     required String longitude,
     required String latitude,
   }) async {
-    Map<String, dynamic> params = {
+    final params = <String, dynamic>{
       'key': key,
       'q': '$latitude,$longitude',
       'days': '6',

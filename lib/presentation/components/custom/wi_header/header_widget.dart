@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:wi_weather_app/presentation/components/custom/wi_header/header_controller.dart';
 import 'package:wi_weather_app/model/current_weather.dart';
 import 'package:wi_weather_app/model/location_model.dart';
+import 'package:wi_weather_app/presentation/components/custom/wi_header/header_controller.dart';
 import 'package:wi_weather_app/res/constants/app_colors.dart';
 import 'package:wi_weather_app/utils/extension.dart';
 
 class WiHeader extends StatefulWidget {
   const WiHeader({
-    super.key,
-    required this.currentWeather,
-    required this.location,
+    required this.currentWeather, required this.location, super.key,
   });
 
   final Location location;
@@ -45,7 +43,7 @@ class _WiHeaderState extends State<WiHeader> {
               temp: widget.currentWeather.tempC!.round().toString(),
               condition: widget.currentWeather.condition!.text!,
             ),
-          )
+          ),
         ],
       ),
     );
@@ -54,11 +52,7 @@ class _WiHeaderState extends State<WiHeader> {
 
 class HeaderTitle extends StatelessWidget {
   const HeaderTitle({
-    super.key,
-    required this.controller,
-    required this.locationCountry,
-    required this.locationName,
-    required this.localTime,
+    required this.controller, required this.locationCountry, required this.locationName, required this.localTime, super.key,
   });
   final HeaderController controller;
   final String locationName;
@@ -75,7 +69,7 @@ class HeaderTitle extends StatelessWidget {
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(vertical: 20),
         title: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          padding: const EdgeInsets.symmetric(vertical: 8),
           child: Text(
             '$locationName, $locationCountry',
             style: const TextStyle(
@@ -116,9 +110,7 @@ class WeatherVector extends StatelessWidget {
 
 class WeatherReading extends StatelessWidget {
   const WeatherReading({
-    super.key,
-    required this.temp,
-    required this.condition,
+    required this.temp, required this.condition, super.key,
   });
   final String temp;
   final String condition;
@@ -128,7 +120,6 @@ class WeatherReading extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -136,17 +127,16 @@ class WeatherReading extends StatelessWidget {
             style: const TextStyle(
                 fontSize: 80,
                 fontWeight: FontWeight.bold,
-                color: AppColors.white),
+                color: AppColors.white,),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
                 condition,
                 style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,
-                    color: AppColors.white),
+                    color: AppColors.white,),
               ),
             ],
           ),

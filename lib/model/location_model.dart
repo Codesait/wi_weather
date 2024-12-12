@@ -1,8 +1,29 @@
 import 'package:intl/intl.dart';
 
 class Location {
+  Location({
+    this.name,
+    this.region,
+    this.country,
+    this.lat,
+    this.lon,
+    this.tzId,
+    this.localtimeEpoch,
+    this.localtime,
+  });
+
+  Location.fromJson(Map<String, dynamic> json) {
+    name = json['name'] as String?;
+    region = json['region'] as String?;
+    country = json['country'] as String?;
+    lat = json['lat'] as double?;
+    lon = json['lon'] as double?;
+    tzId = json['tz_id'] as String?;
+    localtimeEpoch = json['localtime_epoch'] as int?;
+    localtime = json['localtime'] as String?;
+  }
   String? name;
-  String? region; 
+  String? region;
   String? country;
   double? lat;
   double? lon;
@@ -10,32 +31,11 @@ class Location {
   int? localtimeEpoch;
   String? localtime;
 
-  Location(
-      {this.name,
-      this.region,
-      this.country,
-      this.lat,
-      this.lon,
-      this.tzId,
-      this.localtimeEpoch,
-      this.localtime});
-
   String get formattedTime =>
       DateFormat('EEEE, MMMM d  hh:mm a').format(DateTime.parse(localtime!));
 
-  Location.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    region = json['region'];
-    country = json['country'];
-    lat = json['lat'];
-    lon = json['lon'];
-    tzId = json['tz_id'];
-    localtimeEpoch = json['localtime_epoch'];
-    localtime = json['localtime'];
-  }
-
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final data = <String, dynamic>{};
     data['name'] = name;
     data['region'] = region;
     data['country'] = country;

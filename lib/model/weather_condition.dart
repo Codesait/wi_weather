@@ -1,18 +1,18 @@
 class Condition {
-  String? text;
-  String? icon;
-  int? code;
 
   Condition({this.text, this.icon, this.code});
 
   Condition.fromJson(Map<String, dynamic> json) {
-    text = json['text'];
-    icon = json['icon'];
-    code = json['code'];
+    text = json['text'] as String?;
+    icon = json['icon'] as String?;
+    code = json['code'] as int?;
   }
+  String? text;
+  String? icon;
+  int? code;
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final data = <String, dynamic>{};
     data['text'] = text;
     data['icon'] = icon;
     data['code'] = code;

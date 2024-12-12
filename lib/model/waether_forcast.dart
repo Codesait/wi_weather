@@ -1,21 +1,20 @@
 import 'package:wi_weather_app/src/model.dart';
 
 class Forecast {
-  List<Forecastday>? forecastday;
-
   Forecast({this.forecastday});
 
   Forecast.fromJson(Map<String, dynamic> json) {
     if (json['forecastday'] != null) {
       forecastday = <Forecastday>[];
-      json['forecastday'].forEach((v) {
+      json['forecastday'].forEach((Map<String, dynamic> v) {
         forecastday!.add(Forecastday.fromJson(v));
       });
     }
   }
+  List<Forecastday>? forecastday;
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final data = <String, dynamic>{};
     if (forecastday != null) {
       data['forecastday'] = forecastday!.map((v) => v.toJson()).toList();
     }
@@ -24,29 +23,38 @@ class Forecast {
 }
 
 class Forecastday {
+  Forecastday({
+    this.date,
+    this.dateEpoch,
+    this.day,
+    this.astro,
+    this.hour,
+  });
+
+  Forecastday.fromJson(Map<String, dynamic> json) {
+    date = json['date'] as String?;
+    dateEpoch = json['date_epoch'] as int?;
+    day = json['day'] != null
+        ? Day.fromJson(json['day'] as Map<String, dynamic>)
+        : null;
+    astro = json['astro'] != null
+        ? Astro.fromJson(json['astro'] as Map<String, dynamic>)
+        : null;
+    if (json['hour'] != null) {
+      hour = <Hour>[];
+      json['hour'].forEach((Map<String, dynamic> v) {
+        hour!.add(Hour.fromJson(v));
+      });
+    }
+  }
   String? date;
   int? dateEpoch;
   Day? day;
   Astro? astro;
   List<Hour>? hour;
 
-  Forecastday({this.date, this.dateEpoch, this.day, this.astro, this.hour});
-
-  Forecastday.fromJson(Map<String, dynamic> json) {
-    date = json['date'];
-    dateEpoch = json['date_epoch'];
-    day = json['day'] != null ? Day.fromJson(json['day']) : null;
-    astro = json['astro'] != null ? Astro.fromJson(json['astro']) : null;
-    if (json['hour'] != null) {
-      hour = <Hour>[];
-      json['hour'].forEach((v) {
-        hour!.add(Hour.fromJson(v));
-      });
-    }
-  }
-
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final data = <String, dynamic>{};
     data['date'] = date;
     data['date_epoch'] = dateEpoch;
     if (day != null) {
@@ -63,6 +71,53 @@ class Forecastday {
 }
 
 class Day {
+  Day({
+    this.maxtempC,
+    this.maxtempF,
+    this.mintempC,
+    this.mintempF,
+    this.avgtempC,
+    this.avgtempF,
+    this.maxwindMph,
+    this.maxwindKph,
+    this.totalprecipMm,
+    this.totalprecipIn,
+    this.totalsnowCm,
+    this.avgvisKm,
+    this.avgvisMiles,
+    this.avghumidity,
+    this.dailyWillItRain,
+    this.dailyChanceOfRain,
+    this.dailyWillItSnow,
+    this.dailyChanceOfSnow,
+    this.condition,
+    this.uv,
+  });
+
+  Day.fromJson(Map<String, dynamic> json) {
+    maxtempC = json['maxtemp_c'] as double?;
+    maxtempF = json['maxtemp_f'] as double?;
+    mintempC = json['mintemp_c'] as double?;
+    mintempF = json['mintemp_f'] as double?;
+    avgtempC = json['avgtemp_c'] as double?;
+    avgtempF = json['avgtemp_f'] as double?;
+    maxwindMph = json['maxwind_mph'] as double?;
+    maxwindKph = json['maxwind_kph'] as double?;
+    totalprecipMm = json['totalprecip_mm'] as double?;
+    totalprecipIn = json['totalprecip_in'] as double?;
+    totalsnowCm = json['totalsnow_cm'] as double?;
+    avgvisKm = json['avgvis_km'] as double?;
+    avgvisMiles = json['avgvis_miles'] as double?;
+    avghumidity = json['avghumidity'] as double?;
+    dailyWillItRain = json['daily_will_it_rain'] as int?;
+    dailyChanceOfRain = json['daily_chance_of_rain'] as int?;
+    dailyWillItSnow = json['daily_will_it_snow'] as int?;
+    dailyChanceOfSnow = json['daily_chance_of_snow'] as int?;
+    condition = json['condition'] != null
+        ? Condition.fromJson(json['condition'] as Map<String, dynamic>)
+        : null;
+    uv = json['uv'] as double?;
+  }
   double? maxtempC;
   double? maxtempF;
   double? mintempC;
@@ -84,55 +139,8 @@ class Day {
   Condition? condition;
   double? uv;
 
-  Day(
-      {this.maxtempC,
-      this.maxtempF,
-      this.mintempC,
-      this.mintempF,
-      this.avgtempC,
-      this.avgtempF,
-      this.maxwindMph,
-      this.maxwindKph,
-      this.totalprecipMm,
-      this.totalprecipIn,
-      this.totalsnowCm,
-      this.avgvisKm,
-      this.avgvisMiles,
-      this.avghumidity,
-      this.dailyWillItRain,
-      this.dailyChanceOfRain,
-      this.dailyWillItSnow,
-      this.dailyChanceOfSnow,
-      this.condition,
-      this.uv});
-
-  Day.fromJson(Map<String, dynamic> json) {
-    maxtempC = json['maxtemp_c'];
-    maxtempF = json['maxtemp_f'];
-    mintempC = json['mintemp_c'];
-    mintempF = json['mintemp_f'];
-    avgtempC = json['avgtemp_c'];
-    avgtempF = json['avgtemp_f'];
-    maxwindMph = json['maxwind_mph'];
-    maxwindKph = json['maxwind_kph'];
-    totalprecipMm = json['totalprecip_mm'];
-    totalprecipIn = json['totalprecip_in'];
-    totalsnowCm = json['totalsnow_cm'];
-    avgvisKm = json['avgvis_km'];
-    avgvisMiles = json['avgvis_miles'];
-    avghumidity = json['avghumidity'];
-    dailyWillItRain = json['daily_will_it_rain'];
-    dailyChanceOfRain = json['daily_chance_of_rain'];
-    dailyWillItSnow = json['daily_will_it_snow'];
-    dailyChanceOfSnow = json['daily_chance_of_snow'];
-    condition = json['condition'] != null
-        ? Condition.fromJson(json['condition'])
-        : null;
-    uv = json['uv'];
-  }
-
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final data = <String, dynamic>{};
     data['maxtemp_c'] = maxtempC;
     data['maxtemp_f'] = maxtempF;
     data['mintemp_c'] = mintempC;
@@ -160,6 +168,23 @@ class Day {
 }
 
 class Astro {
+  Astro({
+    this.sunrise,
+    this.sunset,
+    this.moonrise,
+    this.moonset,
+    this.moonPhase,
+    this.moonIllumination,
+  });
+
+  Astro.fromJson(Map<String, dynamic> json) {
+    sunrise = json['sunrise'] as String?;
+    sunset = json['sunset'] as String?;
+    moonrise = json['moonrise'] as String?;
+    moonset = json['moonset'] as String?;
+    moonPhase = json['moon_phase'] as String?;
+    moonIllumination = json['moon_illumination'] as String?;
+  }
   String? sunrise;
   String? sunset;
   String? moonrise;
@@ -167,25 +192,8 @@ class Astro {
   String? moonPhase;
   String? moonIllumination;
 
-  Astro(
-      {this.sunrise,
-      this.sunset,
-      this.moonrise,
-      this.moonset,
-      this.moonPhase,
-      this.moonIllumination});
-
-  Astro.fromJson(Map<String, dynamic> json) {
-    sunrise = json['sunrise'];
-    sunset = json['sunset'];
-    moonrise = json['moonrise'];
-    moonset = json['moonset'];
-    moonPhase = json['moon_phase'];
-    moonIllumination = json['moon_illumination'];
-  }
-
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final data = <String, dynamic>{};
     data['sunrise'] = sunrise;
     data['sunset'] = sunset;
     data['moonrise'] = moonrise;
@@ -195,4 +203,3 @@ class Astro {
     return data;
   }
 }
-

@@ -3,18 +3,17 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class EightSidedContainer extends StatelessWidget {
+  const EightSidedContainer({
+    required this.size,
+    required this.child,
+    super.key,
+    this.color = Colors.amber,
+    this.padding = const EdgeInsets.all(60),
+  });
   final double size;
   final Color color;
   final Widget child;
   final EdgeInsetsGeometry padding;
-
-  const EightSidedContainer({
-    Key? key,
-    required this.size,
-    this.color = Colors.amber,
-    required this.child,
-    this.padding = const EdgeInsets.all(60),
-  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,35 +31,33 @@ class EightSidedContainer extends StatelessWidget {
 }
 
 class EightSidedPainter extends CustomPainter {
-  final Color color;
-
   EightSidedPainter({required this.color});
+  final Color color;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final Paint paint = Paint()
+    final paint = Paint()
       ..color = color
       ..style = PaintingStyle.fill;
 
-    final double w = size.width;
-    final double h = size.height;
-    final double cornerRadius = 30; // Controls the roundness of corners
+    final w = size.width;
+    final h = size.height;
+    const cornerRadius = 30; // Controls the roundness of corners
 
-    final Path path = Path();
-    final Offset center = Offset(w / 2, h / 2);
-    final double radius =
-        w / 2 - cornerRadius; // Radius of the eight-sided shape
+    final path = Path();
+    final center = Offset(w / 2, h / 2);
+    final radius = w / 2 - cornerRadius; // Radius of the eight-sided shape
 
     // Generate 8 rounded corners by calculating angles
-    for (int i = 0; i < 8; i++) {
-      final double angle1 = (pi / 4) * i; // Start angle
-      final double angle2 = (pi / 4) * (i + 1); // End angle
+    for (var i = 0; i < 8; i++) {
+      final angle1 = (pi / 4) * i; // Start angle
+      final angle2 = (pi / 4) * (i + 1); // End angle
 
-      final Offset point1 = Offset(
+      final point1 = Offset(
         center.dx + radius * cos(angle1),
         center.dy + radius * sin(angle1),
       );
-      final Offset point2 = Offset(
+      final point2 = Offset(
         center.dx + radius * cos(angle2),
         center.dy + radius * sin(angle2),
       );
@@ -72,8 +69,7 @@ class EightSidedPainter extends CustomPainter {
       // Draw rounded corners using arcToPoint
       path.arcToPoint(
         point2,
-        radius: Radius.circular(cornerRadius),
-        clockwise: true,
+        radius: Radius.circular(double.parse(cornerRadius.toString())),
       );
     }
 

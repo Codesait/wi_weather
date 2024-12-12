@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wi_weather_app/src/res.dart';
 
 class WeatherLargeText extends StatelessWidget {
-  const WeatherLargeText({super.key, required this.text});
+  const WeatherLargeText({required this.text, super.key});
   final String text;
 
   @override
@@ -12,6 +12,6 @@ class WeatherLargeText extends StatelessWidget {
           fontWeight: FontWeight.bold,
           color: AppColors.black,
           fontSize: 18,
-        ));
+        ),);
   }
 }

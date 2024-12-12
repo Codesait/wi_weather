@@ -31,7 +31,7 @@ class WeatherDescription extends StatelessWidget {
             WidgetSpan(
               alignment: PlaceholderAlignment.middle,
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
                   'Cloudy',
                   style: theme.textTheme.displayLarge!.copyWith(
@@ -45,7 +45,7 @@ class WeatherDescription extends StatelessWidget {
             WidgetSpan(
               alignment: PlaceholderAlignment.middle,
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                padding: const EdgeInsets.symmetric(vertical: 8),
                 child: ButtonPill(
                   height: 48,
                   constraints: BoxConstraints(maxWidth: fullWidth / 2.5),

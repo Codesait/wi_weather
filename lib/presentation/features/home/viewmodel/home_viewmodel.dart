@@ -28,7 +28,7 @@ class HomeViewModel extends BaseModel {
   //* THIS METHOD IS CALLED ON APP HOME PAGE INITIALISATION
   Future<void> initLocation() async {
     loading(true);
-    Future.wait(
+    await Future.wait(
       [
         locationService.locationServiceEnabled(),
         locationService.checkLocationPermisson(),
@@ -41,7 +41,7 @@ class HomeViewModel extends BaseModel {
         //INITIALLIZING POSITION WILL BE DELAYED
         Timer(
           const Duration(seconds: 2),
-          (() {
+          () {
             //* INITIALIZING GEOLOCATOR AND GETTING
             //* POSITIONS DATA
             locationService.initPosition().then((value) {
@@ -57,7 +57,7 @@ class HomeViewModel extends BaseModel {
                 fetchWeather();
               }
             });
-          }),
+          },
         );
       },
     );
@@ -65,7 +65,7 @@ class HomeViewModel extends BaseModel {
 
   //* THIS FUTURE METHODE FETCHES WEATHER FORCAST FROM WEATHER API
   Future<void> fetchWeather({bool? isReloading}) async {
-    locationService
+    await locationService
         .getWeather(
       longitude: longitude!,
       latitude: latitude!,
@@ -74,7 +74,8 @@ class HomeViewModel extends BaseModel {
       if (value != null) {
         //! TO BE CONTINUED
         // WHEN WE HAVE DATA,
-        final data = Weather.fromJson(json.decode(value));
+        final data = Weather.fromJson(
+            json.decode(value as String) as Map<String, dynamic>);
         _locationDetails = data.location;
         _currentWeather = data.current;
         _dailyForecastList = data.forecast!.forecastday;

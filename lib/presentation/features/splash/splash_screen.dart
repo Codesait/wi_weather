@@ -24,7 +24,6 @@ class _WiSplashState extends State<WiSplash> {
         height: fullHeight,
         width: fullHeight,
         alignment: Alignment.center,
-        color: Colors.white,
         child: const Text(
           'Wi Weather',
           style: TextStyle(color: Colors.blueAccent, fontSize: 30),

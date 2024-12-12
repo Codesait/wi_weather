@@ -28,23 +28,32 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
           height: fullHeight,
           width: fullWidth,
           padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              const WeatherDescription(),
-              const ForcastIconIndicator(),
-              SizedBox(
-                height: fullHeight / 5,
-                child: const Placeholder(),
+          child: const Stack(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(bottom: 50),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    WeatherDescription(),
+                    ForcastIconIndicator(),
+                    ForcastReadings(),
+                    // Gap(70)
+                  ],
+                ),
               ),
-              const Gap(70)
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: SizedBox(
+                  height: 70,
+                  child: Placeholder(),
+                ),
+              ),
             ],
           ),
         ),
-      ),
-      bottomSheet:  Container(
-        height: 70,
-        child: Placeholder(),
       ),
     );
   }
