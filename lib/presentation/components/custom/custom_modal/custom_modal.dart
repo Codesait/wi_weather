@@ -65,14 +65,16 @@ class CustomModalState extends ConsumerState<CustomModal>
                       SizedBox(
                         width: fullWidth,
                         height: mViewController.modalIsOpen
-                            ? mViewController.modalHeight()! / 1.15
+                            ? mViewController.modalHeight()! / 1.1
                             : null,
-                        child: ListView(
-                          children: [
-                            _ForcastTitle(key: UniqueKey()),
-                            _ExpandedForcastReading(key: UniqueKey()),
-                            _DaysPicker(),
-                          ],
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              _ForcastTitle(key: UniqueKey()),
+                              _ExpandedForcastReading(key: UniqueKey()),
+                              _DaysPicker(),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -125,20 +127,24 @@ class _ForcastTitle extends ConsumerWidget {
       visible: mViewController.modalIsOpen,
       child: Opacity(
         opacity: mViewController.animationController.value,
-        child: Row(
-          children: [
-            Expanded(
-              flex: 6,
-              child: Text(
-                mViewController.tappedForcast.name.capitalizeFirsLetter(),
-                style: theme.textTheme.displayLarge!.copyWith(
-                  color: AppColors.black,
-                  fontWeight: FontWeight.w300,
+        child: Container(
+          height: 106,
+          margin: const EdgeInsets.only(bottom: 20),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 6,
+                child: Text(
+                  mViewController.tappedForcast.name.capitalizeFirsLetter(),
+                  style: theme.textTheme.displayLarge!.copyWith(
+                    color: AppColors.black,
+                    fontWeight: FontWeight.w300,
+                  ),
                 ),
               ),
-            ),
-            const Expanded(flex: 4, child: Gap(2)),
-          ],
+              const Expanded(flex: 4, child: Gap(2)),
+            ],
+          ),
         ),
       ),
     );
@@ -153,7 +159,15 @@ class _ExpandedForcastReading extends ConsumerWidget {
     final mViewController = ref.watch(modalController);
     return Visibility(
       visible: mViewController.modalIsOpen,
-      child: const Placeholder(),
+      child: SizedBox(
+        height: mViewController.modalHeight()! / 1.46,
+        child: const Column(
+          children: [
+            Expanded(flex: 2, child: Placeholder()),
+            Expanded(flex: 8, child: Placeholder()),
+          ],
+        ),
+      ),
     );
   }
 }
