@@ -66,28 +66,28 @@ class AppTheme {
 
     /// text theme
     textTheme: TextTheme(
-      displayLarge: GoogleFonts.montserratAlternates(
+      displayLarge: GoogleFonts.dmMono(
         fontWeight: FontWeight.bold,
         color: AppColors.black,
         letterSpacing: 1.5,
         fontSize: 44.sp,
       ),
-      titleLarge: GoogleFonts.montserratAlternates(
+      titleLarge: GoogleFonts.dmMono(
         fontSize: 24.sp,
         color: AppColors.black,
         fontWeight: FontWeight.bold,
       ),
-      titleMedium: GoogleFonts.montserratAlternates(
+      titleMedium: GoogleFonts.dmMono(
         fontWeight: FontWeight.bold,
         color: AppColors.black,
         fontSize: 15.sp,
       ),
-      bodyMedium: GoogleFonts.montserratAlternates(
+      bodyMedium: GoogleFonts.dmMono(
         fontWeight: FontWeight.normal,
         color: AppColors.black,
         fontSize: 12.sp,
       ),
-      labelLarge: GoogleFonts.montserratAlternates(
+      labelLarge: GoogleFonts.dmMono(
         color: AppColors.black,
         fontSize: 12.sp,
       ),

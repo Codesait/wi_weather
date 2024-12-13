@@ -19,38 +19,40 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //final provider = ref.watch(homeViewModel);
+    final mController = ref.watch(modalController);
 
     return Scaffold(
       appBar: const HomeAppbarWidget(),
       body: SafeArea(
-        child: Container(
+        bottom: !mController.modalIsOpen,
+        child: SizedBox(
           height: fullHeight,
           width: fullWidth,
-          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-          child: const Stack(
+          child: Stack(
             children: [
               Padding(
-                padding: EdgeInsets.only(bottom: 50),
+                padding: const EdgeInsets.fromLTRB(25, 10, 25, 50),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    WeatherDescription(),
-                    ForcastIconIndicator(),
-                    ForcastReadings(),
+                    const WeatherDescription(),
+                    const ForcastIconIndicator(),
+                    ForcastReadings(
+                      onTepmtForcastTapped: () {
+                        mController.onWiseForcastTap(TappedForcast.temperature);
+                      },
+                      onRainForcastTapped: () {
+                        mController.onWiseForcastTap(TappedForcast.rain);
+                      },
+                      onWindForcastTapped: () {
+                        mController.onWiseForcastTap(TappedForcast.wind);
+                      },
+                    ),
                     // Gap(70)
                   ],
                 ),
               ),
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: SizedBox(
-                  height: 70,
-                  child: Placeholder(),
-                ),
-              ),
+              const CustomModal(),
             ],
           ),
         ),

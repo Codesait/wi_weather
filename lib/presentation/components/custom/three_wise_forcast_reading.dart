@@ -4,22 +4,31 @@ import 'package:wi_weather_app/src/res.dart';
 import 'package:wi_weather_app/src/utils.dart';
 
 class ForcastReadings extends StatelessWidget {
-  const ForcastReadings({super.key});
+  const ForcastReadings({
+    required this.onTepmtForcastTapped,
+    required this.onRainForcastTapped,
+    required this.onWindForcastTapped,
+    super.key,
+  });
+  final void Function() onTepmtForcastTapped;
+  final void Function() onRainForcastTapped;
+  final void Function() onWindForcastTapped;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: fullHeight / 5,
       width: fullWidth,
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
             child: _ReadingCircleContainer(
-              key: ValueKey('temp'),
+              key: const ValueKey('temp'),
               color: AppColors.tempColor,
               readingTitle: 'TEMP',
-              child: _TemperatureGauge(
+              onTap: onTepmtForcastTapped,
+              child: const _TemperatureGauge(
                 currentTemperature: 28,
                 maxTemperature: 30,
                 minTemperature: 20,
@@ -28,18 +37,20 @@ class ForcastReadings extends StatelessWidget {
           ),
           Expanded(
             child: _ReadingCircleContainer(
-              key: ValueKey('rain'),
+              key: const ValueKey('rain'),
               color: AppColors.rainColor,
               readingTitle: 'RAIN',
-              child: _RainBgAndPercentage(rainPrecentage: 5),
+              onTap: onRainForcastTapped,
+              child: const _RainBgAndPercentage(rainPrecentage: 5),
             ),
           ),
           Expanded(
             child: _ReadingCircleContainer(
-              key: ValueKey('wind'),
+              key: const ValueKey('wind'),
               color: AppColors.windColor,
               readingTitle: 'WIND',
-              child: _WindWidget(windSpeed: 6),
+              onTap: onWindForcastTapped,
+              child: const _WindWidget(windSpeed: 6),
             ),
           ),
         ],
@@ -56,41 +67,46 @@ class _ReadingCircleContainer extends StatelessWidget {
     required this.readingTitle,
     required this.child,
     this.color = Colors.orange,
+    this.onTap,
     super.key,
   });
   final Color color;
   final String readingTitle;
   final Widget child;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Column(
-      children: [
-        Container(
-          constraints: const BoxConstraints(
-            minHeight: 120,
-            minWidth: 120,
-          ),
-          child: CircleAvatar(
-            backgroundColor: color,
-            child: child,
-          ),
-        ),
-        const Gap(5),
-        SizedBox(
-          height: 40,
-          child: Text(
-            readingTitle,
-            style: theme.textTheme.titleMedium!.copyWith(
-              fontWeight: FontWeight.w300,
-              fontSize: 13,
-              color: AppColors.grey,
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Container(
+            constraints: const BoxConstraints(
+              minHeight: 120,
+              minWidth: 120,
+            ),
+            child: CircleAvatar(
+              backgroundColor: color,
+              child: child,
             ),
           ),
-        ),
-      ],
+          const Gap(5),
+          SizedBox(
+            height: 40,
+            child: Text(
+              readingTitle,
+              style: theme.textTheme.titleMedium!.copyWith(
+                fontWeight: FontWeight.w300,
+                fontSize: 13,
+                color: AppColors.grey,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wi_weather_app/src/components.dart';
-import 'package:wi_weather_app/src/model.dart';
 import 'package:wi_weather_app/src/res.dart';
-import 'package:wi_weather_app/src/screens.dart';
 import 'package:wi_weather_app/src/utils.dart';
 
 class CustomModal extends ConsumerStatefulWidget {
@@ -15,11 +13,9 @@ class CustomModal extends ConsumerStatefulWidget {
 
 class CustomModalState extends ConsumerState<CustomModal>
     with SingleTickerProviderStateMixin {
-  final modalController = ModalController();
-
   @override
   void initState() {
-    modalController.animationController = AnimationController(
+    ref.read(modalController).animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1500),
     );
@@ -28,52 +24,60 @@ class CustomModalState extends ConsumerState<CustomModal>
 
   @override
   void dispose() {
-    modalController.animationController.dispose();
+    ref.read(modalController).animationController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = ref.watch(homeViewModel);
+    final theme = Theme.of(context);
+    final mViewController = ref.watch(modalController);
 
     return AnimatedBuilder(
-      animation: modalController.animationController,
+      animation: mViewController.animationController,
       builder: (context, _) {
         return Positioned(
-          height: modalController.modalHeight(),
           bottom: 0,
           left: 0,
           right: 0,
           child: GestureDetector(
-            onVerticalDragUpdate: modalController.handleDragUpdate,
-            onVerticalDragEnd: modalController.handleDragEnd,
+            onVerticalDragEnd: mViewController.handleDragEnd,
             child: Container(
-              color: Colors.white,
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              child: Stack(
-                children: [
-                  Positioned(
-                    top: 10,
-                    left: 0,
-                    right: 0,
-                    child: modalPicker,
-                  ),
-                  Positioned(
-                    top: 20,
-                    left: 0,
-                    right: 0,
-                    child: Column(
-                      children: [
-                        CurrentWeatherDetails(
-                          modalController: modalController,
-                          current: provider.currentWeather!,
+              decoration: BoxDecoration(
+                color: mViewController.getModalColor(
+                  theme.scaffoldBackgroundColor,
+                ),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
+              ),
+              height: mViewController.modalHeight(),
+              padding: const EdgeInsets.only(
+                top: 15,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const _CloseModalBtn(),
+                      SizedBox(
+                        width: fullWidth,
+                        height: mViewController.modalIsOpen
+                            ? mViewController.modalHeight()! / 1.15
+                            : null,
+                        child: ListView(
+                          children: [
+                            _ForcastTitle(key: UniqueKey()),
+                            _ExpandedForcastReading(key: UniqueKey()),
+                            _DaysPicker(),
+                          ],
                         ),
-                        const Gap(20),
-                        WeatherPredictions(controller: modalController),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
@@ -81,128 +85,59 @@ class CustomModalState extends ConsumerState<CustomModal>
       },
     );
   }
-
-  Widget modalPicker = Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Container(
-        height: 15,
-        width: 50,
-        decoration: BoxDecoration(
-          color: AppColors.primary,
-          borderRadius: BorderRadius.circular(10),
-        ),
-      ),
-    ],
-  );
 }
 
-class CurrentWeatherDetails extends StatelessWidget {
-  const CurrentWeatherDetails({
-    required this.modalController, required this.current, super.key,
-  });
-
-  final ModalController modalController;
-  final Current current;
+class _CloseModalBtn extends ConsumerWidget {
+  const _CloseModalBtn();
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: fullWidth,
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      margin: const EdgeInsets.only(top: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // header text
-          const WeatherLargeText(
-            text: 'Weather now',
-          ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final mViewController = ref.watch(modalController);
 
-          // spacing
-          const SizedBox.square(
-            dimension: 20,
-          ),
-
-          GridView(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 5,
-              crossAxisSpacing: 20,
-              childAspectRatio: 3,
+    return Visibility(
+      visible: mViewController.modalIsOpen,
+      child: Align(
+        alignment: Alignment.topRight,
+        child: SizedBox(
+          height: 25,
+          child: IconButton(
+            onPressed: mViewController.tapToCloseModal,
+            icon: const Icon(
+              Icons.clear,
+              color: AppColors.black,
             ),
-            children: [
-              CurrentWeatherItem(
-                readTitle: 'Feel like',
-                val: current.feelslikeC.toString().inDegree,
-                icon: AppAssets.tempIcon,
-              ),
-              CurrentWeatherItem(
-                readTitle: 'Wind',
-                val: current.windKph.toString().inKmPerHr,
-                icon: AppAssets.airIcon,
-              ),
-              CurrentWeatherItem(
-                readTitle: 'Perciitation',
-                val: current.precipIn!.round().toString().inPercent,
-                icon: AppAssets.rainIcon,
-              ),
-              CurrentWeatherItem(
-                readTitle: 'Humidity',
-                val: current.humidity.toString().inPercent,
-                icon: AppAssets.humidityIcon,
-              ),
-            ],
           ),
-        ],
+        ),
       ),
     );
   }
 }
 
-class WeatherPredictions extends StatelessWidget {
-  const WeatherPredictions({
-    required this.controller, super.key,
-  });
-  final ModalController controller;
+class _ForcastTitle extends ConsumerWidget {
+  const _ForcastTitle({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Opacity(
-      opacity: controller.animationController.value,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+
+    final mViewController = ref.watch(modalController);
+    return Visibility(
+      visible: mViewController.modalIsOpen,
+      child: Opacity(
+        opacity: mViewController.animationController.value,
+        child: Row(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const WeatherLargeText(
-                  text: 'Prediction',
+            Expanded(
+              flex: 6,
+              child: Text(
+                mViewController.tappedForcast.name.capitalizeFirsLetter(),
+                style: theme.textTheme.displayLarge!.copyWith(
+                  color: AppColors.black,
+                  fontWeight: FontWeight.w300,
                 ),
-                Text(
-                  'Weekly',
-                  style: TextStyle(
-                    color: AppColors.grey.withOpacity(0.7),
-                    fontSize: 15,
-                  ),
-                ),
-              ],
-            ),
-            const Gap(10),
-            Container(
-              constraints: BoxConstraints(
-                minHeight: controller.modalFullHeight / 3,
-                maxHeight: controller.modalFullHeight / 2.4,
-                minWidth: fullWidth,
               ),
-              child: const Predictions(),
             ),
+            const Expanded(flex: 4, child: Gap(2)),
           ],
         ),
       ),
@@ -210,19 +145,66 @@ class WeatherPredictions extends StatelessWidget {
   }
 }
 
-class Predictions extends StatelessWidget {
-  const Predictions({super.key});
+class _ExpandedForcastReading extends ConsumerWidget {
+  const _ExpandedForcastReading({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: 7,
-      padding: const EdgeInsets.only(bottom: 60),
-      physics: const BouncingScrollPhysics(),
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        return const PredictionListItem();
-      },
+  Widget build(BuildContext context, WidgetRef ref) {
+    final mViewController = ref.watch(modalController);
+    return Visibility(
+      visible: mViewController.modalIsOpen,
+      child: const Placeholder(),
+    );
+  }
+}
+
+class _DaysPicker extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final mViewController = ref.watch(modalController);
+    final modalIsOpen = mViewController.modalIsOpen;
+
+    return Visibility(
+      child: Container(
+        width: fullWidth,
+        margin: const EdgeInsets.only(top: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ButtonPill(
+              height: 40,
+              constraints: const BoxConstraints(maxWidth: 90),
+              color: (modalIsOpen ? AppColors.black : AppColors.grey)
+                  .withOpacity(.2),
+              textColor: modalIsOpen ? AppColors.black : null,
+              text: 'TODAY',
+            ),
+            ButtonPill(
+              height: 40,
+              color: (modalIsOpen ? AppColors.black : AppColors.grey)
+                  .withOpacity(.2),
+              textColor: modalIsOpen ? AppColors.black : null,
+              text: 'TOMORROW',
+            ),
+            ButtonPill(
+              height: 40,
+              constraints: const BoxConstraints(maxWidth: 120),
+              color: (modalIsOpen ? AppColors.black : AppColors.grey)
+                  .withOpacity(.2),
+              textColor: modalIsOpen ? AppColors.black : null,
+              text: 'DAY AFTER',
+            ),
+            CircleAvatar(
+              backgroundColor: Colors.greenAccent.shade400,
+              child: const SizedBox(
+                height: 40,
+                width: 40,
+                child: Icon(Icons.clear),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

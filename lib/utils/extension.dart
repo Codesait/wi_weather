@@ -17,3 +17,9 @@ extension AssetExtensions on String {
   String get png => 'assets/images/$this.png';
   String get svg => 'assets/icons/$this.svg';
 }
+
+extension StringExtension on String {
+  String capitalizeFirsLetter() {
+    return '${this[0].toUpperCase()}${substring(1).toLowerCase()}';
+  }
+}
