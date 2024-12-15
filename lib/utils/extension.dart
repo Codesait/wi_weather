@@ -7,6 +7,11 @@ double get fullHeight =>
 double get fullWidth =>
     MediaQuery.of(navigatorKey.currentState!.context).size.width;
 
+double get getContainerHeight {
+  final mq = MediaQuery.of(navigatorKey.currentState!.context);
+  return mq.size.height - AppBar().preferredSize.height - mq.padding.vertical;
+}
+
 extension StringSymbol on String {
   String get inDegree => '$this\u00B0';
   String get inKmPerHr => '${this}km/h';

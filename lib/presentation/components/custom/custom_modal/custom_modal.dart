@@ -47,10 +47,12 @@ class CustomModalState extends ConsumerState<CustomModal>
                 color: mViewController.getModalColor(
                   theme.scaffoldBackgroundColor,
                 ),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
-                ),
+                borderRadius: mViewController.modalIsOpen
+                    ? const BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30),
+                      )
+                    : null,
               ),
               height: mViewController.modalHeight(),
               padding: const EdgeInsets.only(
@@ -58,27 +60,26 @@ class CustomModalState extends ConsumerState<CustomModal>
               ),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const _CloseModalBtn(),
-                      SizedBox(
-                        width: fullWidth,
-                        height: mViewController.modalIsOpen
-                            ? mViewController.modalHeight()! / 1.1
-                            : null,
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              _ForcastTitle(key: UniqueKey()),
-                              _ExpandedForcastReading(key: UniqueKey()),
-                              _DaysPicker(),
-                            ],
-                          ),
-                        ),
+                child: Column(
+                  children: [
+                    const _CloseModalBtn(),
+                    SizedBox(
+                      width: fullWidth,
+                      height: mViewController.modalIsOpen
+                          ? mViewController.modalHeight()! / 1.1
+                          : null,
+                      child: Column(
+                        mainAxisAlignment: mViewController.modalIsOpen
+                            ? MainAxisAlignment.spaceBetween
+                            : MainAxisAlignment.start,
+                        children: [
+                          _ForcastTitle(key: UniqueKey()),
+                          _ExpandedForcastReading(key: UniqueKey()),
+                          _DaysPicker(),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -160,11 +161,31 @@ class _ExpandedForcastReading extends ConsumerWidget {
     return Visibility(
       visible: mViewController.modalIsOpen,
       child: SizedBox(
-        height: mViewController.modalHeight()! / 1.46,
-        child: const Column(
+        height: mViewController.modalHeight()! / 1.66,
+        child: Column(
           children: [
-            Expanded(flex: 2, child: Placeholder()),
-            Expanded(flex: 8, child: Placeholder()),
+            ForcastReadings(
+              inDetailedMode: true,
+              selectedForcast: mViewController.tappedForcast,
+              onTepmtForcastTapped: () {
+                mViewController.onWiseForcastTap(TappedForcast.temperature);
+              },
+              onRainForcastTapped: () {
+                mViewController.onWiseForcastTap(TappedForcast.rain);
+              },
+              onWindForcastTapped: () {
+                mViewController.onWiseForcastTap(TappedForcast.wind);
+              },
+            ),
+            switch (mViewController.tappedForcast) {
+              TappedForcast.temperature =>
+                const Flexible(child: HourlyTempChart()),
+              TappedForcast.rain => const Flexible(child: Placeholder()),
+              TappedForcast.wind => const Flexible(child: Placeholder()),
+            },
+            // const Flexible(
+            //   child:  HourlyTempChart(),
+            // ),
           ],
         ),
       ),
@@ -179,9 +200,8 @@ class _DaysPicker extends ConsumerWidget {
     final modalIsOpen = mViewController.modalIsOpen;
 
     return Visibility(
-      child: Container(
+      child: SizedBox(
         width: fullWidth,
-        margin: const EdgeInsets.only(top: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -193,27 +213,32 @@ class _DaysPicker extends ConsumerWidget {
               textColor: modalIsOpen ? AppColors.black : null,
               text: 'TODAY',
             ),
-            ButtonPill(
-              height: 40,
-              color: (modalIsOpen ? AppColors.black : AppColors.grey)
-                  .withOpacity(.2),
-              textColor: modalIsOpen ? AppColors.black : null,
-              text: 'TOMORROW',
-            ),
-            ButtonPill(
-              height: 40,
-              constraints: const BoxConstraints(maxWidth: 120),
-              color: (modalIsOpen ? AppColors.black : AppColors.grey)
-                  .withOpacity(.2),
-              textColor: modalIsOpen ? AppColors.black : null,
-              text: 'DAY AFTER',
-            ),
-            CircleAvatar(
-              backgroundColor: Colors.greenAccent.shade400,
-              child: const SizedBox(
+            Expanded(
+              child: ButtonPill(
                 height: 40,
-                width: 40,
-                child: Icon(Icons.clear),
+                color: (modalIsOpen ? AppColors.black : AppColors.grey)
+                    .withOpacity(.2),
+                textColor: modalIsOpen ? AppColors.black : null,
+                text: 'TOMORROW',
+              ),
+            ),
+            Expanded(
+              child: ButtonPill(
+                height: 40,
+                color: (modalIsOpen ? AppColors.black : AppColors.grey)
+                    .withOpacity(.2),
+                textColor: modalIsOpen ? AppColors.black : null,
+                text: 'DAY AFTER',
+              ),
+            ),
+            Flexible(
+              child: CircleAvatar(
+                backgroundColor: Colors.greenAccent.shade400,
+                child: const SizedBox(
+                  height: 40,
+                  width: 40,
+                  child: Icon(Icons.clear),
+                ),
               ),
             ),
           ],

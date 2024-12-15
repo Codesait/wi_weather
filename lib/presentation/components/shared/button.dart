@@ -18,7 +18,7 @@ class ButtonPill extends StatelessWidget {
     this.width,
     this.height,
     this.padding,
-    this.fontSize = 16,
+    this.fontSize = 14,
     this.fontWeight,
     this.borderColor,
     this.buttonstate = Buttonstate.idle,
@@ -82,8 +82,9 @@ class ButtonPill extends StatelessWidget {
                     : Text(
                         text.toString(),
                         textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
                         style: theme.textTheme.titleLarge!.copyWith(
-                          color: textColor ?? Colors.white,
+                          color: textColor,
                           fontSize: fontSize,
                           fontWeight: fontWeight ?? FontWeight.w500,
                         ),

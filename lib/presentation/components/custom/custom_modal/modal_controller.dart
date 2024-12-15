@@ -12,9 +12,7 @@ import 'package:wi_weather_app/utils/extension.dart';
 final modalController = ChangeNotifierProvider((_) => ModalController());
 
 class ModalController extends BaseModel {
-  final modalMinHeight = 80.0;
-
-  final modalFullHeight = fullHeight;
+  final modalMinHeight = 70.0;
 
   final curve = Curves.easeOut;
   final duration = const Duration(milliseconds: 200);
@@ -44,9 +42,12 @@ class ModalController extends BaseModel {
    */
   void tapToExpandeModal() {
     animationController.animateTo(1, curve: curve, duration: duration);
-    modalIsOpen = true;
-    notifyListeners();
+    Timer(const Duration(milliseconds: 210), () {
+      modalIsOpen = true;
+      notifyListeners();
+    });
 
+    //notifyListeners();
     log('Modal val: ${animationController.value}');
   }
 
@@ -56,17 +57,22 @@ class ModalController extends BaseModel {
   void tapToCloseModal() {
     animationController.animateTo(0, curve: curve, duration: duration);
     modalIsOpen = false;
-    notifyListeners();
 
+    notifyListeners();
     log('Modal val: ${animationController.value}');
   }
 
   void onWiseForcastTap(TappedForcast tappedForcast) {
     _tappedForcast = tappedForcast;
+    if (modalIsOpen) {
+      notifyListeners();
+      return;
+    }
+
     tapToExpandeModal();
   }
 
-  double? modalHeight() => lerp(modalMinHeight, fullHeight - 140);
+  double? modalHeight() => lerp(modalMinHeight, fullHeight * .875);
 
   //! May use below code later
   // void handleDragUpdate(DragUpdateDetails details) {

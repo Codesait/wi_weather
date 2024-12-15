@@ -30,26 +30,31 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
           width: fullWidth,
           child: Stack(
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(25, 10, 25, 50),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    const WeatherDescription(),
-                    const ForcastIconIndicator(),
-                    ForcastReadings(
-                      onTepmtForcastTapped: () {
-                        mController.onWiseForcastTap(TappedForcast.temperature);
-                      },
-                      onRainForcastTapped: () {
-                        mController.onWiseForcastTap(TappedForcast.rain);
-                      },
-                      onWindForcastTapped: () {
-                        mController.onWiseForcastTap(TappedForcast.wind);
-                      },
-                    ),
-                    // Gap(70)
-                  ],
+              Container(
+                height: getContainerHeight,
+                padding: const EdgeInsets.fromLTRB(25, 10, 25, 80),
+                // color: Colors.amber,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      const WeatherDescription(),
+                      const ForcastIconIndicator(),
+                      ForcastReadings(
+                        onTepmtForcastTapped: () {
+                          mController
+                              .onWiseForcastTap(TappedForcast.temperature);
+                        },
+                        onRainForcastTapped: () {
+                          mController.onWiseForcastTap(TappedForcast.rain);
+                        },
+                        onWindForcastTapped: () {
+                          mController.onWiseForcastTap(TappedForcast.wind);
+                        },
+                      ),
+                      // Gap(70)
+                    ],
+                  ),
                 ),
               ),
               const CustomModal(),

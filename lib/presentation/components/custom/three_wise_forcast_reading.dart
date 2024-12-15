@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wi_weather_app/presentation/components/shared/gap.dart';
+import 'package:wi_weather_app/src/components.dart';
 import 'package:wi_weather_app/src/res.dart';
 import 'package:wi_weather_app/src/utils.dart';
 
@@ -8,24 +8,36 @@ class ForcastReadings extends StatelessWidget {
     required this.onTepmtForcastTapped,
     required this.onRainForcastTapped,
     required this.onWindForcastTapped,
+    this.inDetailedMode = false,
+    this.selectedForcast,
     super.key,
   });
   final void Function() onTepmtForcastTapped;
   final void Function() onRainForcastTapped;
   final void Function() onWindForcastTapped;
+  final bool inDetailedMode;
+  final dynamic selectedForcast;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: fullHeight / 5,
+    final textColor = inDetailedMode ? AppColors.black : null;
+
+    return Container(
       width: fullWidth,
+      alignment: Alignment.center,
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
             child: _ReadingCircleContainer(
               key: const ValueKey('temp'),
-              color: AppColors.tempColor,
+              color: inDetailedMode
+                  ? (selectedForcast == TappedForcast.temperature
+                      ? AppColors.white
+                      : AppColors.black.withOpacity(.2))
+                  : AppColors.tempColor,
+              textColor: textColor,
               readingTitle: 'TEMP',
               onTap: onTepmtForcastTapped,
               child: const _TemperatureGauge(
@@ -38,7 +50,12 @@ class ForcastReadings extends StatelessWidget {
           Expanded(
             child: _ReadingCircleContainer(
               key: const ValueKey('rain'),
-              color: AppColors.rainColor,
+              color: inDetailedMode
+                  ? (selectedForcast == TappedForcast.rain
+                      ? AppColors.white
+                      : AppColors.black.withOpacity(.2))
+                  : AppColors.rainColor,
+              textColor: textColor,
               readingTitle: 'RAIN',
               onTap: onRainForcastTapped,
               child: const _RainBgAndPercentage(rainPrecentage: 5),
@@ -47,7 +64,12 @@ class ForcastReadings extends StatelessWidget {
           Expanded(
             child: _ReadingCircleContainer(
               key: const ValueKey('wind'),
-              color: AppColors.windColor,
+              color: inDetailedMode
+                  ? (selectedForcast == TappedForcast.wind
+                      ? AppColors.white
+                      : AppColors.black.withOpacity(.2))
+                  : AppColors.windColor,
+              textColor: textColor,
               readingTitle: 'WIND',
               onTap: onWindForcastTapped,
               child: const _WindWidget(windSpeed: 6),
@@ -67,10 +89,12 @@ class _ReadingCircleContainer extends StatelessWidget {
     required this.readingTitle,
     required this.child,
     this.color = Colors.orange,
+    this.textColor,
     this.onTap,
     super.key,
   });
   final Color color;
+  final Color? textColor;
   final String readingTitle;
   final Widget child;
   final void Function()? onTap;
@@ -94,15 +118,12 @@ class _ReadingCircleContainer extends StatelessWidget {
             ),
           ),
           const Gap(5),
-          SizedBox(
-            height: 40,
-            child: Text(
-              readingTitle,
-              style: theme.textTheme.titleMedium!.copyWith(
-                fontWeight: FontWeight.w300,
-                fontSize: 13,
-                color: AppColors.grey,
-              ),
+          Text(
+            readingTitle,
+            style: theme.textTheme.titleMedium!.copyWith(
+              fontWeight: FontWeight.bold,
+              fontSize: 12,
+              color: textColor,
             ),
           ),
         ],
