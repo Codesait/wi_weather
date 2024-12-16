@@ -1,6 +1,8 @@
 // custom components
 export '../presentation/components/custom/custom_modal/custom_modal.dart';
+export '../presentation/components/custom/custom_modal/hourly_rain_chart.dart';
 export '../presentation/components/custom/custom_modal/hourly_temp_chart.dart';
+export '../presentation/components/custom/custom_modal/hourly_wind_chart.dart';
 export '../presentation/components/custom/custom_modal/modal_controller.dart';
 export '../presentation/components/custom/three_wise_forcast_reading.dart';
 export '../presentation/components/custom/wi_header/header_controller.dart';

@@ -42,6 +42,7 @@ dependencies:
   google_fonts: ^4.0.4
   flutter_screenutil: ^5.9.3
   syncfusion_flutter_charts: ^28.1.33
+  flutter_animate: ^4.5.2
 
 dev_dependencies:
   flutter_test:

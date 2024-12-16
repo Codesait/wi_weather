@@ -12,4 +12,6 @@ class AppColors {
   static const tempColor = Color(0xffFD642E);
   static const rainColor = Color(0xffA36CFE);
   static const windColor = Color(0xffF2CF48);
+  static  Color green = Colors.greenAccent.shade400;
+
 }

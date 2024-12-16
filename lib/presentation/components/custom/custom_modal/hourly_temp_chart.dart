@@ -34,7 +34,7 @@ class HourlyTempChart extends StatelessWidget {
           dashArray: <double>[5, 5],
         ),
         majorTickLines: MajorTickLines(
-          size: 3,
+          size: 0,
           color: AppColors.black,
         ),
       ),

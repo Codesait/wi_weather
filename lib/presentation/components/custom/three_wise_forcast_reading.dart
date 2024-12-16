@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wi_weather_app/src/components.dart';
 import 'package:wi_weather_app/src/res.dart';
 import 'package:wi_weather_app/src/utils.dart';
@@ -20,8 +21,6 @@ class ForcastReadings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textColor = inDetailedMode ? AppColors.black : null;
-
     return Container(
       width: fullWidth,
       alignment: Alignment.center,
@@ -37,7 +36,11 @@ class ForcastReadings extends StatelessWidget {
                       ? AppColors.white
                       : AppColors.black.withOpacity(.2))
                   : AppColors.tempColor,
-              textColor: textColor,
+              textColor: inDetailedMode
+                  ? (selectedForcast == TappedForcast.temperature
+                      ? AppColors.white
+                      : AppColors.black)
+                  : null,
               readingTitle: 'TEMP',
               onTap: onTepmtForcastTapped,
               child: const _TemperatureGauge(
@@ -47,6 +50,7 @@ class ForcastReadings extends StatelessWidget {
               ),
             ),
           ),
+          const Gap(5),
           Expanded(
             child: _ReadingCircleContainer(
               key: const ValueKey('rain'),
@@ -55,12 +59,17 @@ class ForcastReadings extends StatelessWidget {
                       ? AppColors.white
                       : AppColors.black.withOpacity(.2))
                   : AppColors.rainColor,
-              textColor: textColor,
+              textColor: inDetailedMode
+                  ? (selectedForcast == TappedForcast.rain
+                      ? AppColors.white
+                      : AppColors.black)
+                  : null,
               readingTitle: 'RAIN',
               onTap: onRainForcastTapped,
               child: const _RainBgAndPercentage(rainPrecentage: 5),
             ),
           ),
+          const Gap(5),
           Expanded(
             child: _ReadingCircleContainer(
               key: const ValueKey('wind'),
@@ -69,7 +78,11 @@ class ForcastReadings extends StatelessWidget {
                       ? AppColors.white
                       : AppColors.black.withOpacity(.2))
                   : AppColors.windColor,
-              textColor: textColor,
+              textColor: inDetailedMode
+                  ? (selectedForcast == TappedForcast.wind
+                      ? AppColors.white
+                      : AppColors.black)
+                  : null,
               readingTitle: 'WIND',
               onTap: onWindForcastTapped,
               child: const _WindWidget(windSpeed: 6),
@@ -166,7 +179,7 @@ class _TemperatureGauge extends StatelessWidget {
                 child: Text(
                   'MAX $maxTemperature°',
                   style: theme.textTheme.labelLarge!.copyWith(
-                    fontSize: 9,
+                    fontSize: 8,
                     fontWeight: FontWeight.bold,
                     color: AppColors.black,
                   ),
@@ -193,7 +206,7 @@ class _TemperatureGauge extends StatelessWidget {
                 child: Text(
                   '$currentTemperature°',
                   style: theme.textTheme.labelLarge!.copyWith(
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: AppColors.black,
                   ),
@@ -216,7 +229,7 @@ class _TemperatureGauge extends StatelessWidget {
                 child: Text(
                   'MAX $minTemperature°',
                   style: theme.textTheme.labelLarge!.copyWith(
-                    fontSize: 9,
+                    fontSize: 8,
                     fontWeight: FontWeight.bold,
                     color: AppColors.black,
                   ),
@@ -245,13 +258,19 @@ class _RainBgAndPercentage extends StatelessWidget {
 
     final Widget line = Transform.rotate(
       angle: 45,
-      child: Container(
-        width: 3,
-        height: 15,
-        decoration: BoxDecoration(
-          color: const Color(0xff5D47CE),
-          borderRadius: BorderRadius.circular(2),
-        ),
+      child: Consumer(
+        builder: (context, ref, _) {
+          return Container(
+            width: 3,
+            height: 10,
+            decoration: BoxDecoration(
+              color: ref.watch(modalController).modalIsOpen
+                  ? AppColors.black
+                  : const Color(0xff5D47CE),
+              borderRadius: BorderRadius.circular(2),
+            ),
+          );
+        },
       ),
     );
 
@@ -291,7 +310,7 @@ class _RainBgAndPercentage extends StatelessWidget {
           child: Text(
             '$rainPrecentage'.inPercent,
             style: theme.textTheme.labelLarge!.copyWith(
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
               color: AppColors.black,
             ),
@@ -320,7 +339,7 @@ class _WindWidget extends StatelessWidget {
       angle: 25,
       child: Icon(
         Icons.arrow_back_rounded,
-        size: 30,
+        size: 23,
         color: AppColors.black.withOpacity(.6),
       ),
     );
@@ -332,7 +351,7 @@ class _WindWidget extends StatelessWidget {
         Text(
           '$windSpeed'.inKmPerHr,
           style: theme.textTheme.labelLarge!.copyWith(
-            fontSize: 20,
+            fontSize: 18,
             fontWeight: FontWeight.bold,
             color: AppColors.black,
           ),
