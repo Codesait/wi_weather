@@ -15,7 +15,7 @@ class ApiService {
     Uri uri, {
     Map<String, String>? headers,
   }) async {
-    clog.i('Making request to $uri');
+    clog.d('Making request to $uri');
 
     try {
       if (await networkInfo.isConnected) {

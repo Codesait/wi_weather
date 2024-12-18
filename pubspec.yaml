@@ -36,17 +36,24 @@ dependencies:
 
   internet_connection_checker: ^1.0.0+1
 
-  geolocator: ^9.0.2
+  geolocator: ^13.0.2
 
   loading_animation_widget: ^1.2.0+4
   google_fonts: ^4.0.4
   flutter_screenutil: ^5.9.3
   syncfusion_flutter_charts: ^28.1.33
   flutter_animate: ^4.5.2
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  freezed: ^2.4.6
+
+  json_serializable: ^6.7.1
+
+  build_runner:
 
   
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -72,6 +79,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - secrets.env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

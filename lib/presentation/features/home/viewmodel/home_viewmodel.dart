@@ -30,8 +30,8 @@ class HomeViewModel extends BaseModel {
     loading(true);
     await Future.wait(
       [
-        locationService.locationServiceEnabled(),
         locationService.checkLocationPermisson(),
+        locationService.locationServiceEnabled(),
       ],
     ).then(
       (value) {
@@ -75,10 +75,15 @@ class HomeViewModel extends BaseModel {
         //! TO BE CONTINUED
         // WHEN WE HAVE DATA,
         final data = Weather.fromJson(
-            json.decode(value as String) as Map<String, dynamic>);
+          json.decode(value as String) as Map<String, dynamic>,
+        );
         _locationDetails = data.location;
         _currentWeather = data.current;
         _dailyForecastList = data.forecast!.forecastday;
+
+        // log('location: $_locationDetails');
+        log('current: $_currentWeather');
+        log('daily forcast: $_dailyForecastList');
 
         //  NOTIFY BUILD LISTENERS IF THIS IS A RELOAD CALL
         if (isLoading) {
