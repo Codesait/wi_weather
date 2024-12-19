@@ -202,7 +202,7 @@ class _ExpandedForcastReading extends ConsumerWidget {
                   },
                 ],
               )
-            : const Placeholder(),
+            : const _ExpandedDays(),
       ),
     );
   }
@@ -289,6 +289,123 @@ class _DaysPicker extends ConsumerWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _ExpandedDays extends ConsumerWidget {
+  const _ExpandedDays({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dates =
+        ref.watch(homeViewmodelProvider.notifier).forecast?.forecastday;
+    final selectedDay = ref.watch(dayPickerViewModel).selectedDay;
+    final theme = Theme.of(context);
+
+    return Container(
+      width: fullWidth,
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Wrap(
+        spacing: 8,
+        runSpacing: 10,
+        children: dates!.map((day) {
+          final isSelected = (day.date == selectedDay?.date);
+
+          return ChoiceChip(
+            padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 10),
+            label: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  UtilFunctions.formatDate(
+                    date: day.date,
+                    pattern: DateTime.now().millisecondsSinceEpoch.isEven
+                        ? 'E'
+                        : 'EEEE',
+                  ),
+                  style: theme.textTheme.displayLarge!.copyWith(
+                    color: (day == selectedDay)
+                        ? AppColors.green
+                        : AppColors.black.withOpacity(.4),
+                    fontSize: 35.sp,
+                  ),
+                ),
+                Text(
+                  UtilFunctions.formatDate(
+                    date: day.date,
+                    pattern: 'MMM d, ' 'yyyy',
+                  ),
+                  style: theme.textTheme.labelLarge!.copyWith(
+                    color: (day == selectedDay)
+                        ? AppColors.green
+                        : AppColors.black.withOpacity(.4),
+                  ),
+                ),
+              ],
+            ),
+            pressElevation: 3,
+            selected: isSelected,
+            selectedColor: AppColors.black.withOpacity(.8),
+            backgroundColor: Colors.greenAccent.shade700.withOpacity(.9),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(100),
+            ),
+            onSelected: (value) {
+              ref.read(dayPickerViewModel).setSelectedDay(day);
+              ref.read(modalController).showOrHideDates();
+            },
+            showCheckmark: false,
+          );
+
+          // return ButtonPill(
+          //   borderRadius: 100,
+          //   constraints: const BoxConstraints(
+          //     maxWidth: 150,
+          //     minWidth: 100,
+          //     minHeight: 90,
+          //   ),
+          //   color: (day.date == selectedDay?.date)
+          //       ? AppColors.black.withOpacity(.6)
+          //       : AppColors.black.withOpacity(.2),
+          //   child: Column(
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: [
+          //       Text(
+          //         UtilFunctions.formatDate(
+          //           date: day.date,
+          //           pattern: DateTime.now().millisecondsSinceEpoch.isEven
+          //               ? 'E'
+          //               : 'EEEE',
+          //         ),
+          //         style: theme.textTheme.displayLarge!.copyWith(
+          //           color: (day == selectedDay)
+          //               ? AppColors.green
+          //               : AppColors.black.withOpacity(.4),
+          //           fontSize: 35.sp,
+          //         ),
+          //       ),
+          //       Text(
+          //         UtilFunctions.formatDate(
+          //           date: day.date,
+          //           pattern: 'MMM d, ' 'yyyy',
+          //         ),
+          //         style: theme.textTheme.labelLarge!.copyWith(
+          //           color: (day == selectedDay)
+          //               ? AppColors.green
+          //               : AppColors.black.withOpacity(.4),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          //   onPressed: () {
+          //     ref.read(dayPickerViewModel).setSelectedDay(day);
+          //   },
+          // );
+        }).toList(),
       ),
     );
   }

@@ -1,66 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wi_weather_app/presentation/features/home/viewmodel/set_day_provider.dart';
 import 'package:wi_weather_app/src/res.dart';
+import 'package:wi_weather_app/src/utils.dart';
 
-class HourlyWindChart extends StatelessWidget {
+class HourlyWindChart extends ConsumerWidget {
   const HourlyWindChart({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    const data = <Map<String, dynamic>>[
-      {
-        'wind_kph': 48.9,
-        'wind_dir': 'W', // Wind direction string
-        'wind_degree': 260.0, // Wind direction in degrees
-        'time': '2PM',
-      },
-      {
-        'wind_kph': 10.9,
-        'wind_dir': 'W', // Wind direction string
-        'wind_degree': 200.0, // Wind direction in degrees
-        'time': '2PM',
-      },
-      {
-        'wind_kph': 332.9,
-        'wind_dir': 'W', // Wind direction string
-        'wind_degree': 180.0, // Wind direction in degrees
-        'time': '2PM',
-      },
-      {
-        'wind_kph': 38.9,
-        'wind_dir': 'W', // Wind direction string
-        'wind_degree': 260.0, // Wind direction in degrees
-        'time': '2PM',
-      },
-      {
-        'wind_kph': 38.9,
-        'wind_dir': 'W', // Wind direction string
-        'wind_degree': 240.0, // Wind direction in degrees
-        'time': '2PM',
-      },
-      {
-        'wind_kph': 38.9,
-        'wind_dir': 'W', // Wind direction string
-        'wind_degree': 165.0, // Wind direction in degrees
-        'time': '2PM',
-      },
-      {
-        'wind_kph': 38.9,
-        'wind_dir': 'W', // Wind direction string
-        'wind_degree': 210.0, // Wind direction in degrees
-        'time': '2PM',
-      },
-    ];
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedDay = ref.watch(dayPickerViewModel).selectedDay;
 
-    return Center(
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
-        children: data.map((windData) {
-          return Expanded(
+        children: selectedDay!.hour.map((windData) {
+          return SizedBox(
+            width: 50,
             child: WindColumn(
-              speed: windData['wind_kph'] as double,
-              direction: windData['wind_degree'] as double,
-              directionLabel: windData['wind_dir'] as String,
-              time: windData['time'] as String,
+              speed: windData.wind_kph,
+              direction: double.parse(windData.wind_degree.toString()),
+              directionLabel: windData.wind_dir,
+              time: UtilFunctions.formatDate(
+                date: windData.time,
+                pattern: 'ha',
+              ),
             ),
           );
         }).toList(),
@@ -107,13 +72,13 @@ class WindColumn extends StatelessWidget {
                 .copyWith(color: AppColors.black, fontSize: 11),
           ),
 
-          // Rotated arrow for wind direction
+          //* Rotated arrow for wind direction
           Column(
             children: [
               Transform.rotate(
-                angle: direction * (3.14159265359 / 180), // Degrees to radians
+                angle: direction * (3.14159265359 / 180), //? Degrees to radians
                 child: const Icon(
-                  Icons.arrow_back, // Arrow icon
+                  Icons.arrow_back, 
                   size: 20,
                   color: Colors.black,
                 ),

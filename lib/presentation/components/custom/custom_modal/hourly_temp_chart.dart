@@ -1,26 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:wi_weather_app/presentation/features/home/viewmodel/set_day_provider.dart';
 import 'package:wi_weather_app/res/constants/app_colors.dart';
-import 'package:wi_weather_app/utils/extension.dart';
+import 'package:wi_weather_app/src/model.dart';
+import 'package:wi_weather_app/src/utils.dart';
 
-class HourlyTempChart extends StatelessWidget {
+class HourlyTempChart extends ConsumerWidget {
   const HourlyTempChart({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final chartData = <TempData>[
-      TempData('4pm', 32),
-      TempData('7pm', 29),
-      TempData('10pm', 26),
-      TempData('1am', 24),
-      TempData('4am', 21),
-      TempData('7am', 22),
-      TempData('10pm', 26),
-      TempData('1pm', 29),
-      TempData('3pm', 22),
-    ];
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedDay = ref.watch(dayPickerViewModel).selectedDay;
 
     return SfCartesianChart(
+      trackballBehavior: TrackballBehavior(
+        enable: true,
+        activationMode: ActivationMode.singleTap,
+        tooltipSettings: const InteractiveTooltip(
+          color: AppColors.black,
+          textStyle: TextStyle(
+            color: AppColors.white,
+            fontSize: 12,
+          ),
+          format: 'point.yC',
+        ),
+      ),
+      
       primaryXAxis: const CategoryAxis(
         majorGridLines: MajorGridLines(
           width: 1,
@@ -53,12 +59,13 @@ class HourlyTempChart extends StatelessWidget {
       plotAreaBorderWidth: 1, // Remove the border around the plot area
       plotAreaBorderColor: AppColors.black,
       plotAreaBackgroundColor: Colors.transparent,
-      series: <AreaSeries<TempData, String>>[
-        AreaSeries<TempData, String>(
-          dataSource: chartData,
-          xValueMapper: (TempData data, _) => data.category,
-          yValueMapper: (TempData data, _) => data.value,
-          sortingOrder: SortingOrder.ascending,
+      series: <AreaSeries<Hour, String>>[
+        AreaSeries<Hour, String>(
+          dataSource: selectedDay?.hour,
+          xValueMapper: (Hour data, _) =>
+              UtilFunctions.formatDate(date: data.time, pattern: 'ha'),
+          yValueMapper: (Hour data, _) => data.temp_c.round(),
+          // sortingOrder: SortingOrder.none,
           gradient: LinearGradient(
             colors: [
               Colors.orange.shade900,
