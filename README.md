@@ -1,4 +1,4 @@
-# wi_weather_app
+# weather_app
 
 <p align="center">
   Wi Weather uses weatherapi.com API to get the realtime weather data.
