@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
@@ -47,29 +46,25 @@ class ApiService {
   dynamic _response(
     http.Response response,
   ) async {
+    clog.i(response.statusCode);
     switch (response.statusCode) {
       case 200:
 
         ///* This is a catch block for when the server returns a 200 ok status.
-        clog.i(response.statusCode);
-        log(response.body);
+        clog.d(response.body);
         return response.body;
       case 201:
 
         ///* This is a catch block for when the server returns a 201 created status.
-        clog.i(response.statusCode);
         clog.i(response.body);
         return response.body;
       case 400:
 
         ///* This is a catch block for when the server returns a 400 bad request status.
-        clog.e(response.statusCode);
-
         throw Exception(response.body);
       case 401:
 
         ///* This is a catch block for when the server returns a 401 unauthorised error.
-        clog.e(response.statusCode);
         Tst.show('Unauthorised');
 
         throw Exception(response.body);

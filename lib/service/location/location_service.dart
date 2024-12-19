@@ -41,7 +41,9 @@ class LocationService {
 
   Future<Position> initPosition() async {
     return position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
+      locationSettings: AndroidSettings(
+        intervalDuration: const Duration(milliseconds: 1000),
+      ),
     );
   }
 
@@ -66,19 +68,14 @@ class LocationService {
     required String longitude,
     required String latitude,
   }) async {
-    
     final params = <String, dynamic>{
       'key': key,
       'q': '$latitude,$longitude',
-      'days': '6',
+      'days': '7',
     };
 
     return apiService.getMth(
-      Uri.http(
-        host,
-        path,
-        params,
-      ),
+      Uri.http(host, path, params),
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
         HttpHeaders.acceptHeader: 'application/json',

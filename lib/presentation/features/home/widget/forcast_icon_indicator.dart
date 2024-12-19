@@ -9,7 +9,7 @@ class ForcastIconIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return EightSidedContainer(
-      size: fullHeight / 3,
+      size: fullHeight / 3.26,
       color: AppColors.myBlue,
       child: Image.asset(
         AppAssets.cloudyImage,

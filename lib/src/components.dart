@@ -5,11 +5,10 @@ export '../presentation/components/custom/custom_modal/hourly_temp_chart.dart';
 export '../presentation/components/custom/custom_modal/hourly_wind_chart.dart';
 export '../presentation/components/custom/custom_modal/modal_controller.dart';
 export '../presentation/components/custom/three_wise_forcast_reading.dart';
-export '../presentation/components/custom/wi_header/header_controller.dart';
-export '../presentation/components/custom/wi_header/header_widget.dart';
 export '../presentation/components/shared/button.dart';
 //re-usable components
 export '../presentation/components/shared/current_weather_detail_item.dart';
+export '../presentation/components/shared/error_placeholder.dart';
 export '../presentation/components/shared/gap.dart';
 export '../presentation/components/shared/loading.dart';
 export '../presentation/components/shared/prediction_list_item.dart';

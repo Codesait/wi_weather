@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wi_weather_app/presentation/features/home/viewmodel/home_viewmodel.dart';
+import 'package:wi_weather_app/presentation/features/home/viewmodel/set_day_provider.dart';
 import 'package:wi_weather_app/src/components.dart';
 import 'package:wi_weather_app/src/res.dart';
 import 'package:wi_weather_app/src/utils.dart';
@@ -22,12 +24,6 @@ class CustomModalState extends ConsumerState<CustomModal>
       duration: const Duration(milliseconds: 1500),
     );
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    ref.read(modalController).animationController.dispose();
-    super.dispose();
   }
 
   @override
@@ -218,6 +214,9 @@ class _DaysPicker extends ConsumerWidget {
     final mViewController = ref.watch(modalController);
     final modalIsOpen = mViewController.modalIsOpen;
 
+    final forecastDays = ref.watch(homeViewmodelProvider.notifier).forecast;
+    final selectedDay = ref.watch(dayPickerViewModel).selectedDay;
+
     return SizedBox(
       width: fullWidth,
       child: Row(
@@ -225,44 +224,41 @@ class _DaysPicker extends ConsumerWidget {
         children: [
           Flexible(
             flex: 8,
-            child: Visibility(
-              visible: mViewController.tappedForcast != TappedForcast.days,
-              replacement: Container(
-                alignment: Alignment.bottomRight,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: ButtonPill(
+            child: SizedBox(
+              height: 40,
+              width: fullWidth / 1.3,
+              child: Visibility(
+                visible: mViewController.tappedForcast != TappedForcast.days,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (con, int index) {
+                    final day = forecastDays?.forecastday[index];
+
+                    return ButtonPill(
                       height: 40,
-                      color: (modalIsOpen ? AppColors.black : AppColors.grey)
-                          .withOpacity(.2),
-                      textColor: modalIsOpen ? AppColors.black : null,
-                      text: 'TODAY',
-                    ),
-                  ),
-                  const Gap(10),
-                  Expanded(
-                    child: ButtonPill(
-                      height: 40,
-                      color: (modalIsOpen ? AppColors.black : AppColors.grey)
-                          .withOpacity(.2),
-                      textColor: modalIsOpen ? AppColors.black : null,
-                      text: 'TOMORROW',
-                    ),
-                  ),
-                  const Gap(10),
-                  Expanded(
-                    child: ButtonPill(
-                      height: 40,
-                      color: (modalIsOpen ? AppColors.black : AppColors.grey)
-                          .withOpacity(.2),
-                      textColor: modalIsOpen ? AppColors.black : null,
-                      text: 'DAY AFTER',
-                    ),
-                  ),
-                ],
+                      color: (day?.date == selectedDay?.date)
+                          ? Colors.white
+                          : (modalIsOpen ? AppColors.black : AppColors.grey)
+                              .withOpacity(.2),
+                      textColor: modalIsOpen
+                          ? AppColors.black
+                          : (day == selectedDay)
+                              ? AppColors.black
+                              : null,
+                      text: day != null
+                          ? UtilFunctions.formatDate(
+                              date: day.date,
+                              pattern: 'EEEE',
+                            ).toUpperCase()
+                          : 'TEST',
+                      onPressed: () {
+                        ref.read(dayPickerViewModel).setSelectedDay(day!);
+                      },
+                    );
+                  },
+                  separatorBuilder: (ctx, index) => const Gap(10),
+                  itemCount: 3,
+                ),
               ),
             ),
           ),

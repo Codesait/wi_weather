@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wi_weather_app/presentation/features/home/viewmodel/set_day_provider.dart';
 import 'package:wi_weather_app/src/components.dart';
 import 'package:wi_weather_app/src/res.dart';
 import 'package:wi_weather_app/src/utils.dart';
 
-class ForcastReadings extends StatelessWidget {
+class ForcastReadings extends ConsumerWidget {
   const ForcastReadings({
     required this.onTepmtForcastTapped,
     required this.onRainForcastTapped,
@@ -20,11 +22,13 @@ class ForcastReadings extends StatelessWidget {
   final dynamic selectedForcast;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dataProvider = ref.watch(dayPickerViewModel).selectedDay;
+
     return Container(
       width: fullWidth,
       alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      //padding: const EdgeInsets.symmetric(vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -43,10 +47,16 @@ class ForcastReadings extends StatelessWidget {
                   : null,
               readingTitle: 'TEMP',
               onTap: onTepmtForcastTapped,
-              child: const _TemperatureGauge(
-                currentTemperature: 28,
-                maxTemperature: 30,
-                minTemperature: 20,
+              child: _TemperatureGauge(
+                currentTemperature: dataProvider != null
+                    ? dataProvider.day.avgtemp_c.round()
+                    : 0,
+                maxTemperature: dataProvider != null
+                    ? dataProvider.day.maxtemp_c.round()
+                    : 0,
+                minTemperature: dataProvider != null
+                    ? dataProvider.day.mintemp_c.round()
+                    : 0,
               ),
             ),
           ),
@@ -66,7 +76,11 @@ class ForcastReadings extends StatelessWidget {
                   : null,
               readingTitle: 'RAIN',
               onTap: onRainForcastTapped,
-              child: const _RainBgAndPercentage(rainPrecentage: 5),
+              child: _RainBgAndPercentage(
+                rainPrecentage: dataProvider != null
+                    ? dataProvider.day.daily_chance_of_rain
+                    : 0,
+              ),
             ),
           ),
           const Gap(5),
@@ -85,7 +99,11 @@ class ForcastReadings extends StatelessWidget {
                   : null,
               readingTitle: 'WIND',
               onTap: onWindForcastTapped,
-              child: const _WindWidget(windSpeed: 6),
+              child: _WindWidget(
+                windSpeed: dataProvider != null
+                    ? dataProvider.day.maxwind_kph.round()
+                    : 0,
+              ),
             ),
           ),
         ],
@@ -97,7 +115,7 @@ class ForcastReadings extends StatelessWidget {
 /**
  ** CIRCLE FOR THE FORCAST READINGS
  */
-class _ReadingCircleContainer extends StatelessWidget {
+class _ReadingCircleContainer extends StatefulWidget {
   const _ReadingCircleContainer({
     required this.readingTitle,
     required this.child,
@@ -113,33 +131,40 @@ class _ReadingCircleContainer extends StatelessWidget {
   final void Function()? onTap;
 
   @override
+  State<_ReadingCircleContainer> createState() =>
+      _ReadingCircleContainerState();
+}
+
+class _ReadingCircleContainerState extends State<_ReadingCircleContainer> {
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return GestureDetector(
-      onTap: onTap,
-      child: Column(
-        children: [
-          Container(
-            constraints: const BoxConstraints(
-              minHeight: 120,
-              minWidth: 120,
+      onTap: widget.onTap,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              constraints: const BoxConstraints(
+                minHeight: 120,
+                minWidth: 120,
+              ),
+              child: CircleAvatar(
+                backgroundColor: widget.color,
+                child: widget.child.animate().fade().scale(),
+              ),
             ),
-            child: CircleAvatar(
-              backgroundColor: color,
-              child: child,
+            Text(
+              widget.readingTitle,
+              style: theme.textTheme.titleMedium!.copyWith(
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
+                color: widget.textColor,
+              ),
             ),
-          ),
-          const Gap(5),
-          Text(
-            readingTitle,
-            style: theme.textTheme.titleMedium!.copyWith(
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
-              color: textColor,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

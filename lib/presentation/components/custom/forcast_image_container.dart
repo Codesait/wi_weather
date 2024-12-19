@@ -20,9 +20,11 @@ class EightSidedContainer extends StatelessWidget {
     return CustomPaint(
       size: Size(size, size),
       painter: EightSidedPainter(color: color),
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 500),
         width: size,
         height: size,
+        alignment: Alignment.center,
         padding: padding,
         child: child, // Position the child inside the container
       ),

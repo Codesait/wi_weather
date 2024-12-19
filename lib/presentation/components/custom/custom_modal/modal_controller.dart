@@ -11,7 +11,7 @@ import 'package:wi_weather_app/utils/extension.dart';
 final modalController = ChangeNotifierProvider((_) => ModalController());
 
 class ModalController extends BaseModel {
-  final modalMinHeight = 70.0;
+  final modalMinHeight = 65.0;
 
   final curve = Curves.easeOut;
   final duration = const Duration(milliseconds: 200);
