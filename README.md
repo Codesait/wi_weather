@@ -7,6 +7,10 @@
 Show some love 💜 and Star ⭐️ the Repository to support the project.
 </p>
 
+<p align = "center">
+  <a href="https://www.buymeacoffee.com/gbraad" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+</p>
+
 **Version 1**
 
 <img src="https://user-images.githubusercontent.com/37216036/209427768-9fa2d02e-54bc-4530-a65a-88b4cb9d66a7.png" width="150" height="280"> <img src="https://user-images.githubusercontent.com/37216036/209428138-44d561e2-8073-4062-95aa-898dd70cac98.png" width="150" height="280"> 
