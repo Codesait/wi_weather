@@ -7,7 +7,18 @@
 Show some love 💜 and Star ⭐️ the Repository to support the project.
 </p>
 
-<img src="https://user-images.githubusercontent.com/37216036/209427768-9fa2d02e-54bc-4530-a65a-88b4cb9d66a7.png" width="150" height="280"> <img src="https://user-images.githubusercontent.com/37216036/209428138-44d561e2-8073-4062-95aa-898dd70cac98.png" width="150" height="280">
+**Version 1**
+
+<img src="https://user-images.githubusercontent.com/37216036/209427768-9fa2d02e-54bc-4530-a65a-88b4cb9d66a7.png" width="150" height="280"> <img src="https://user-images.githubusercontent.com/37216036/209428138-44d561e2-8073-4062-95aa-898dd70cac98.png" width="150" height="280"> 
+
+**Version 2**
+
+<img src="https://github.com/user-attachments/assets/a569ac54-17fb-4a51-b4db-aaaa8967067a" width="150" height="280"> <img src="https://github.com/user-attachments/assets/55509724-e6f4-4e93-8f2b-e4f9ad4b4fbc" width="150" height="280"> <img src="https://github.com/user-attachments/assets/eff43dc6-6843-4127-8e23-ad220b972de3" width="150" height="280"> <img src="https://github.com/user-attachments/assets/8dd8944b-a813-40c7-a746-1776dda54953" width="150" height="280"> <img src="https://github.com/user-attachments/assets/f0b9eb42-494d-4136-b9be-ba927847cb24" width="150" height="280"> 
+
+
+
+
+
 
 
 ## :rocket: Get Up and Running in 5 Minutes
