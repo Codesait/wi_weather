@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:wi_weather_app/service/core/api_service.dart';
 import 'package:wi_weather_app/utils/toasts.dart';
@@ -40,7 +41,9 @@ class LocationService {
 
   Future<Position> initPosition() async {
     return position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
+      locationSettings: AndroidSettings(
+        intervalDuration: const Duration(milliseconds: 1000),
+      ),
     );
   }
 
@@ -58,7 +61,7 @@ class LocationService {
   final scheme = 'http';
   final host = 'api.weatherapi.com';
   final path = 'v1/forecast.json';
-  final key = '5f4656ac41434a39b5920436221612';
+  final key = dotenv.get('AUTH_KEY');
   //final key = 'YOUR_KEY';
 
   Future<dynamic> getWeather({
@@ -68,15 +71,11 @@ class LocationService {
     final params = <String, dynamic>{
       'key': key,
       'q': '$latitude,$longitude',
-      'days': '6',
+      'days': '7',
     };
 
     return apiService.getMth(
-      Uri.http(
-        host,
-        path,
-        params,
-      ),
+      Uri.http(host, path, params),
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
         HttpHeaders.acceptHeader: 'application/json',

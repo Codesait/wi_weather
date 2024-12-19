@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:math' as math;
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,7 +11,7 @@ import 'package:wi_weather_app/utils/extension.dart';
 final modalController = ChangeNotifierProvider((_) => ModalController());
 
 class ModalController extends BaseModel {
-  final modalMinHeight = 70.0;
+  final modalMinHeight = 65.0;
 
   final curve = Curves.easeOut;
   final duration = const Duration(milliseconds: 200);
@@ -21,6 +20,9 @@ class ModalController extends BaseModel {
   TappedForcast get tappedForcast => _tappedForcast;
 
   bool modalIsOpen = false;
+  bool datesPanelOpen = false;
+
+  TappedForcast _lastTappedForcast = TappedForcast.temperature;
 
   Color getModalColor(Color scaffColor) {
     if (!modalIsOpen) {
@@ -33,6 +35,8 @@ class ModalController extends BaseModel {
           return AppColors.rainColor;
         case TappedForcast.wind:
           return AppColors.windColor;
+        case TappedForcast.days:
+          return AppColors.green;
       }
     }
   }
@@ -64,12 +68,26 @@ class ModalController extends BaseModel {
 
   void onWiseForcastTap(TappedForcast tappedForcast) {
     _tappedForcast = tappedForcast;
+    _lastTappedForcast = tappedForcast;
     if (modalIsOpen) {
       notifyListeners();
       return;
     }
 
     tapToExpandeModal();
+  }
+
+  void showOrHideDates() {
+    if (modalIsOpen) {
+      _tappedForcast = (_tappedForcast != TappedForcast.days)
+          ? TappedForcast.days
+          : (_lastTappedForcast == TappedForcast.days)
+              ? TappedForcast.temperature
+              : _lastTappedForcast;
+      notifyListeners();
+    } else {
+      onWiseForcastTap(TappedForcast.days);
+    }
   }
 
   double? modalHeight() => lerp(modalMinHeight, fullHeight * .875);
@@ -117,4 +135,9 @@ class ModalController extends BaseModel {
   }
 }
 
-enum TappedForcast { temperature, rain, wind }
+enum TappedForcast {
+  temperature,
+  rain,
+  wind,
+  days,
+}

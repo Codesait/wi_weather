@@ -1,96 +1,111 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wi_weather_app/service/location/location_service.dart';
 import 'package:wi_weather_app/src/model.dart';
+import 'package:wi_weather_app/src/utils.dart';
 
-final homeViewModel = ChangeNotifierProvider((_) => HomeViewModel());
+part 'home_viewmodel.g.dart';
 
-class HomeViewModel extends BaseModel {
+@riverpod
+class HomeViewmodel extends _$HomeViewmodel {
+  final viewModelRepo = ViewModelRepo();
+  final log = getLogger('HomeViewmodel');
+
+  @override
+  FutureOr<dynamic> build() {
+    return state;
+  }
+
+  Location? _location;
+  CurrentWeather? _current;
+  Forecast? _forecast;
+  ForecastDay? _selectedDay;
+
+  Location? get location => _location;
+  CurrentWeather? get current => _current;
+  Forecast? get forecast => _forecast;
+  ForecastDay? get selectedDay => _selectedDay;
+
+
+  Future<void> loadUserLocation() async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      final value = await viewModelRepo.loadUserLocation();
+      if (value != null) {
+        //* Fetches the weather forecast using the provided longitude and latitude
+        //* values from the `viewModelRepo`.
+        //* The `fetchWeather` method returns a `ForecastResponse` object.
+        await viewModelRepo
+            .fetchWeather(
+          long: value.longitude.toString(),
+          lat: value.latitude.toString(),
+        )
+            .then((forecast) {
+          if (forecast != null) {
+            //* The `ForecastResponse` object is then deconstructed to get the `location`,
+            //* `current` and `forecast` objects.
+            _location = forecast.location;
+            _current = forecast.current;
+            _forecast = forecast.forecast;
+            _selectedDay = forecast.forecast.forecastday.first;
+          }
+
+          log.v('Maggi: $_location');
+        });
+      }
+    });
+  }
+}
+
+final homeViewModel = ChangeNotifierProvider((_) => ViewModelRepo());
+
+class ViewModelRepo extends BaseModel {
   final locationService = LocationService();
 
-  bool? isLocationEnabled;
-
-  String? longitude;
-  String? latitude;
-
-  Location? _locationDetails;
-  Location? get locationDetails => _locationDetails;
-
-  Current? _currentWeather;
-  Current? get currentWeather => _currentWeather;
-
-  List<Forecastday>? _dailyForecastList;
-  List<Forecastday>? get dailyForecastList => _dailyForecastList;
-
   //* THIS METHOD IS CALLED ON APP HOME PAGE INITIALISATION
-  Future<void> initLocation() async {
-    loading(true);
-    await Future.wait(
-      [
-        locationService.locationServiceEnabled(),
-        locationService.checkLocationPermisson(),
-      ],
-    ).then(
-      (value) {
-        //! CAN BE MODIFIED
+  Future<Position?> loadUserLocation() async {
+    Position? position;
 
-        // TO ENSURE LOCATION PERMISSIONS AND SERVICE IS READY
-        //INITIALLIZING POSITION WILL BE DELAYED
-        Timer(
-          const Duration(seconds: 2),
-          () {
-            //* INITIALIZING GEOLOCATOR AND GETTING
-            //* POSITIONS DATA
-            locationService.initPosition().then((value) {
-              longitude = value.longitude.toString();
-              latitude = value.latitude.toString();
+    await Future.wait([
+      locationService.checkLocationPermisson(),
+      locationService.locationServiceEnabled(),
+    ]);
 
-              //* LOG POSITION VALUES
-              log('lat =$latitude\nlong =$longitude');
+    if (await locationService.locationServiceEnabled()) {
+      position = await locationService.initPosition();
+    }
 
-              /// This is to ensure that the latitude and longitude is not null before calling the
-              /// getWeather function.
-              if (latitude != null && longitude != null) {
-                fetchWeather();
-              }
-            });
-          },
-        );
-      },
-    );
+    return position;
   }
 
   //* THIS FUTURE METHODE FETCHES WEATHER FORCAST FROM WEATHER API
-  Future<void> fetchWeather({bool? isReloading}) async {
-    await locationService
-        .getWeather(
-      longitude: longitude!,
-      latitude: latitude!,
-    )
-        .then((value) {
-      if (value != null) {
-        //! TO BE CONTINUED
-        // WHEN WE HAVE DATA,
-        final data = Weather.fromJson(
-            json.decode(value as String) as Map<String, dynamic>);
-        _locationDetails = data.location;
-        _currentWeather = data.current;
-        _dailyForecastList = data.forecast!.forecastday;
+  Future<ForecastResponse?> fetchWeather({
+    required String long,
+    required String lat,
+  }) async {
+    ForecastResponse? decodedResponse;
 
-        //  NOTIFY BUILD LISTENERS IF THIS IS A RELOAD CALL
-        if (isLoading) {
-          notifyListeners();
-        }
-      }
-    }).whenComplete(() {
-      loading(false);
-    });
+    try {
+      final response = await locationService.getWeather(
+        longitude: long,
+        latitude: lat,
+      );
+
+      final decodeResponse = jsonDecode(response as String);
+      decodedResponse =
+          ForecastResponse.fromJson(decodeResponse as Map<String, dynamic>);
+    } catch (e) {
+      getLogger('ViewModelRepo').e(e);
+    }
+
+    return decodedResponse;
   }
 
-  bool canShowView() {
-    return !isLoading && _locationDetails != null;
+  void call() {
+    notifyListeners();
   }
 }

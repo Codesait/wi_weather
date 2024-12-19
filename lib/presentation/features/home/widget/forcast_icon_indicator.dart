@@ -13,7 +13,6 @@ class ForcastIconIndicator extends StatelessWidget {
       color: AppColors.myBlue,
       child: Image.asset(
         AppAssets.cloudyImage,
-        height: fullHeight / 4.5,
         fit: BoxFit.contain,
       ),
     );

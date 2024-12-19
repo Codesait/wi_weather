@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:wi_weather_app/presentation/features/home/viewmodel/home_viewmodel.dart';
 import 'package:wi_weather_app/src/components.dart';
 import 'package:wi_weather_app/src/res.dart';
 import 'package:wi_weather_app/utils/extension.dart';
@@ -80,9 +82,26 @@ class _LocationIndicatorAndSelector extends StatelessWidget {
               BlendMode.srcIn,
             ),
           ),
-          Text(
-            'New York',
-            style: theme.textTheme.titleMedium,
+          Consumer(
+            builder: (context, ref, _) {
+              final location =
+                  ref.watch(homeViewmodelProvider.notifier).location;
+
+              if (location != null) {
+                return Flexible(
+                  child: Text(
+                    location.name,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.titleMedium,
+                  ),
+                );
+              } else {
+                return Text(
+                  '--',
+                  style: theme.textTheme.titleMedium,
+                );
+              }
+            },
           ),
           Icon(
             Icons.arrow_drop_down_rounded,
