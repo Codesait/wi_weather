@@ -360,51 +360,7 @@ class _ExpandedDays extends ConsumerWidget {
             showCheckmark: false,
           );
 
-          // return ButtonPill(
-          //   borderRadius: 100,
-          //   constraints: const BoxConstraints(
-          //     maxWidth: 150,
-          //     minWidth: 100,
-          //     minHeight: 90,
-          //   ),
-          //   color: (day.date == selectedDay?.date)
-          //       ? AppColors.black.withOpacity(.6)
-          //       : AppColors.black.withOpacity(.2),
-          //   child: Column(
-          //     crossAxisAlignment: CrossAxisAlignment.start,
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     children: [
-          //       Text(
-          //         UtilFunctions.formatDate(
-          //           date: day.date,
-          //           pattern: DateTime.now().millisecondsSinceEpoch.isEven
-          //               ? 'E'
-          //               : 'EEEE',
-          //         ),
-          //         style: theme.textTheme.displayLarge!.copyWith(
-          //           color: (day == selectedDay)
-          //               ? AppColors.green
-          //               : AppColors.black.withOpacity(.4),
-          //           fontSize: 35.sp,
-          //         ),
-          //       ),
-          //       Text(
-          //         UtilFunctions.formatDate(
-          //           date: day.date,
-          //           pattern: 'MMM d, ' 'yyyy',
-          //         ),
-          //         style: theme.textTheme.labelLarge!.copyWith(
-          //           color: (day == selectedDay)
-          //               ? AppColors.green
-          //               : AppColors.black.withOpacity(.4),
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          //   onPressed: () {
-          //     ref.read(dayPickerViewModel).setSelectedDay(day);
-          //   },
-          // );
+        
         }).toList(),
       ),
     );
