@@ -8,6 +8,7 @@ class AppAssets {
   static String winterImage = 'winter'.png;
   static String cloudyImage = 'cloudy'.png;
   static String expandIconImage = 'expand_dates'.png;
+  static String logo = 'logo'.png;
 
   // icon assets
   static String airIcon = 'air'.svg;

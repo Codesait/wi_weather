@@ -64,20 +64,22 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                             const Skeleton.keep(
                               child: ForcastIconIndicator(),
                             ),
-                            ForcastReadings(
-                              onTepmtForcastTapped: () {
-                                mController.onWiseForcastTap(
-                                  TappedForcast.temperature,
-                                );
-                              },
-                              onRainForcastTapped: () {
-                                mController
-                                    .onWiseForcastTap(TappedForcast.rain);
-                              },
-                              onWindForcastTapped: () {
-                                mController
-                                    .onWiseForcastTap(TappedForcast.wind);
-                              },
+                            FittedBox(
+                              child: ForcastReadings(
+                                onTepmtForcastTapped: () {
+                                  mController.onWiseForcastTap(
+                                    TappedForcast.temperature,
+                                  );
+                                },
+                                onRainForcastTapped: () {
+                                  mController
+                                      .onWiseForcastTap(TappedForcast.rain);
+                                },
+                                onWindForcastTapped: () {
+                                  mController
+                                      .onWiseForcastTap(TappedForcast.wind);
+                                },
+                              ),
                             ),
                           ],
                         ),
