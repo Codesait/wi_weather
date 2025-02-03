@@ -51,7 +51,6 @@ class ModalController extends BaseModel {
       notifyListeners();
     });
 
-    //notifyListeners();
     log('Modal val: ${animationController.value}');
   }
 

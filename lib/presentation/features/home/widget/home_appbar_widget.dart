@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:wi_weather_app/presentation/features/home/viewmodel/home_viewmodel.dart';
 import 'package:wi_weather_app/src/components.dart';
 import 'package:wi_weather_app/src/res.dart';
+import 'package:wi_weather_app/src/utils.dart';
 import 'package:wi_weather_app/utils/extension.dart';
 
 class HomeAppbarWidget extends StatelessWidget implements PreferredSizeWidget {
@@ -62,53 +63,68 @@ class _LocationIndicatorAndSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Container(
-      height: 40,
-      width: fullWidth / 2.2,
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(
-        color: theme.hintColor.withOpacity(.3),
-        borderRadius: BorderRadius.circular(50),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          SvgPicture.asset(
-            AppAssets.locationIcon,
-            height: 23,
-            width: 23,
-            colorFilter: ColorFilter.mode(
-              theme.iconTheme.color!,
-              BlendMode.srcIn,
-            ),
-          ),
-          Consumer(
-            builder: (context, ref, _) {
-              final location =
-                  ref.watch(homeViewmodelProvider.notifier).location;
+    final items = <String>[
+      'Location 1',
+      'Location 2',
+      'Location 3',
+      'Location 4',
+      // 'Location 5',
+    ];
 
-              if (location != null) {
-                return Flexible(
-                  child: Text(
-                    location.name,
-                    overflow: TextOverflow.ellipsis,
+    return GestureDetector(
+      onTap: () => CustomOverlayController.instance.toggleOverlay(
+        context,
+        AnimatedSearchContainer(
+          items: items,
+        ),
+      ),
+      child: Container(
+        height: 40,
+        width: fullWidth / 2.2,
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        decoration: BoxDecoration(
+          color: theme.hintColor.withOpacity(.3),
+          borderRadius: BorderRadius.circular(50),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SvgPicture.asset(
+              AppAssets.locationIcon,
+              height: 23,
+              width: 23,
+              colorFilter: ColorFilter.mode(
+                theme.iconTheme.color!,
+                BlendMode.srcIn,
+              ),
+            ),
+            Consumer(
+              builder: (context, ref, _) {
+                final location = ref.watch(homeViewmodelProvider.notifier).location;
+
+                if (location != null) {
+                  return Flexible(
+                    child: Text(
+                      location.name,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.titleMedium,
+                    ),
+                  );
+                } else {
+                  return Text(
+                    '--',
                     style: theme.textTheme.titleMedium,
-                  ),
-                );
-              } else {
-                return Text(
-                  '--',
-                  style: theme.textTheme.titleMedium,
-                );
-              }
-            },
-          ),
-          Icon(
-            Icons.arrow_drop_down_rounded,
-            color: theme.iconTheme.color,
-            size: 23,
-          ),
-        ],
+                  );
+                }
+              },
+            ),
+            Icon(
+              Icons.arrow_drop_down_rounded,
+              color: theme.iconTheme.color,
+              size: 23,
+            ),
+          ],
+        ),
       ),
     );
   }

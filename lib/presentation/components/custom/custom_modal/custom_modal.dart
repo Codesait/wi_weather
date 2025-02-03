@@ -39,7 +39,7 @@ class CustomModalState extends ConsumerState<CustomModal>
           left: 0,
           right: 0,
           child: GestureDetector(
-            onVerticalDragEnd: mViewController.handleDragEnd,
+          //  onVerticalDragEnd: mViewController.handleDragEnd,
             child: Container(
               decoration: BoxDecoration(
                 color: mViewController.getModalColor(
@@ -53,32 +53,27 @@ class CustomModalState extends ConsumerState<CustomModal>
                     : null,
               ),
               height: mViewController.modalHeight(),
-              padding: const EdgeInsets.only(
-                top: 15,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
-                child: Column(
-                  children: [
-                    const _CloseModalBtn(),
-                    SizedBox(
-                      width: fullWidth,
-                      height: mViewController.modalIsOpen
-                          ? mViewController.modalHeight()! / 1.1
-                          : null,
-                      child: Column(
-                        mainAxisAlignment: mViewController.modalIsOpen
-                            ? MainAxisAlignment.spaceBetween
-                            : MainAxisAlignment.start,
-                        children: [
-                          _ForcastTitle(key: UniqueKey()),
-                          _ExpandedForcastReading(key: UniqueKey()),
-                          _DaysPicker(),
-                        ],
-                      ),
+              padding: const EdgeInsets.fromLTRB(25, 15, 25, 0),
+              child: Column(
+                children: [
+                  const _CloseModalBtn(),
+                  SizedBox(
+                    width: fullWidth,
+                    height: mViewController.modalIsOpen
+                        ? mViewController.modalHeight()! / 1.1
+                        : null,
+                    child: Column(
+                      mainAxisAlignment: mViewController.modalIsOpen
+                          ? MainAxisAlignment.spaceBetween
+                          : MainAxisAlignment.start,
+                      children: [
+                        _ForcastTitle(key: UniqueKey()),
+                        _ExpandedForcastReading(key: UniqueKey()),
+                        _DaysPicker(),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

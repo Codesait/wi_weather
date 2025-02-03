@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wi_weather_app/presentation/components/custom/forcast_image_container.dart';
+import 'package:wi_weather_app/presentation/components/custom/forecast_image_container.dart';
 import 'package:wi_weather_app/src/res.dart';
 import 'package:wi_weather_app/src/utils.dart';
 

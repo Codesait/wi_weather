@@ -37,15 +37,15 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     final mController = ref.watch(modalController);
     final stateProvider = ref.watch(homeViewmodelProvider);
-    final viewModlelProvider = ref.watch(homeViewmodelProvider.notifier);
+    final viewModalProvider = ref.watch(homeViewmodelProvider.notifier);
 
     return Skeletonizer(
       enabled: stateProvider.isLoading,
       child: Scaffold(
         appBar: const HomeAppbarWidget(),
-        body: (!stateProvider.isLoading && viewModlelProvider.location == null)
+        body: (!stateProvider.isLoading && viewModalProvider.location == null)
             ? ErrorPlaceholder(
-                onRetryPress: viewModlelProvider.loadUserLocation,
+                onRetryPress: viewModalProvider.loadUserLocation,
               )
             : SafeArea(
                 bottom: !mController.modalIsOpen,
