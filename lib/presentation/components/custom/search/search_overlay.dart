@@ -19,34 +19,54 @@ class AnimatedSearchContainerState extends State<AnimatedSearchContainer> {
   final double itemHeight = 50;
   final double maxContainerHeight = 300;
 
+  final searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     // Calculate the target height based on number of items, with a max cap.
     final double targetHeight = min(widget.items.length * itemHeight, maxContainerHeight);
+    final theme = Theme.of(context);
 
     return Padding(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Column(
         children: [
           const Gap(113),
           Container(
-            height: 50,
+            height: 45,
             width: fullWidth * 1.1,
+            alignment: Alignment.topCenter,
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: AppColors.primary,
+              borderRadius: BorderRadius.circular(5),
+              color: AppColors.offWhite,
+            ),
+            child: TextField(
+              controller: searchController,
+              autofocus: true,
+              decoration: InputDecoration(
+                hintText: 'Search places',
+                hintStyle: theme.textTheme.displaySmall?.copyWith(
+                  fontSize: 13,
+                  fontWeight: FontWeight.bold,
+                ),
+                border: InputBorder.none,
+              ),
+              cursorHeight: 15,
+              cursorColor: AppColors.white,
             ),
           ).animate().scale(duration: 200.ms),
-          const Gap(20),
+
+          const Gap(10),
+
           AnimatedContainer(
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOut,
             constraints: const BoxConstraints(minHeight: 100),
             height: targetHeight,
             decoration: BoxDecoration(
-              color: AppColors.primary,
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(8),
+              color: AppColors.offWhite,
+              borderRadius: BorderRadius.circular(5),
             ),
             child: ListView.builder(
               itemCount: widget.items.length,
@@ -56,21 +76,21 @@ class AnimatedSearchContainerState extends State<AnimatedSearchContainer> {
                 );
               },
             ),
-          ).animate().scale(duration: 300.ms),
+          ),
           const Gap(20),
           Container(
             height: 50,
             width: 100,
             decoration: BoxDecoration(
-              color: AppColors.grey,
+              color: AppColors.white,
               borderRadius: BorderRadius.circular(
                 100,
               ),
             ),
             child: IconButton(
-              onPressed:CustomOverlayController.instance.closeOverlay,
+              onPressed: CustomOverlayController.instance.closeOverlay,
               icon: const Icon(Icons.clear),
-              color: AppColors.white,
+              color: AppColors.grey,
             ),
           ).animate().scale(duration: 370.ms),
         ],

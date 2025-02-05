@@ -24,7 +24,7 @@ class CustomOverlayController {
         width: fullWidth,
         child: Material(
           elevation: 4,
-          color: AppColors.black.withValues(alpha: 0.1),
+          color: AppColors.black.withValues(alpha: .7),
           borderRadius: BorderRadius.circular(8),
           child: overlayContent,
         ),

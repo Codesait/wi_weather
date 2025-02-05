@@ -89,7 +89,7 @@ class ModalController extends BaseModel {
     }
   }
 
-  double? modalHeight() => lerp(modalMinHeight, fullHeight * .875);
+  double? modalHeight() => lerp(modalMinHeight, fullHeight * .86);
 
   //! May use below code later
   // void handleDragUpdate(DragUpdateDetails details) {

@@ -54,34 +54,36 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                   width: fullWidth,
                   child: Stack(
                     children: [
-                      Container(
-                        height: getContainerHeight,
-                        padding: const EdgeInsets.fromLTRB(20, 0, 20, 65),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            const WeatherDescription().animate().fade().scale(),
-                            const Skeleton.keep(
-                              child: ForcastIconIndicator(),
-                            ),
-                            FittedBox(
-                              child: ForcastReadings(
-                                onTepmtForcastTapped: () {
-                                  mController.onWiseForcastTap(
-                                    TappedForcast.temperature,
-                                  );
-                                },
-                                onRainForcastTapped: () {
-                                  mController
-                                      .onWiseForcastTap(TappedForcast.rain);
-                                },
-                                onWindForcastTapped: () {
-                                  mController
-                                      .onWiseForcastTap(TappedForcast.wind);
-                                },
+                      SingleChildScrollView(
+                        child: Container(
+                          height: getContainerHeight,
+                          padding: const EdgeInsets.fromLTRB(20, 0, 20, 65),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              const WeatherDescription().animate().fade().scale(),
+                              const Skeleton.keep(
+                                child: ForcastIconIndicator(),
                               ),
-                            ),
-                          ],
+                              FittedBox(
+                                child: ForcastReadings(
+                                  onTepmtForcastTapped: () {
+                                    mController.onWiseForcastTap(
+                                      TappedForcast.temperature,
+                                    );
+                                  },
+                                  onRainForcastTapped: () {
+                                    mController
+                                        .onWiseForcastTap(TappedForcast.rain);
+                                  },
+                                  onWindForcastTapped: () {
+                                    mController
+                                        .onWiseForcastTap(TappedForcast.wind);
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       const CustomModal(),
